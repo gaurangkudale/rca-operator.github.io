@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="RCA Operator — The Autonomous AI-Powered SRE Operator for Kubernetes. 24x7 incident detection, root cause analysis, and autonomous remediation."/>
+  <title>RCA Operator — Autonomous AI-Powered SRE for Kubernetes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ─── TOKENS ─── */
+    :root {
+      --bg:         #06080f;
+      --bg2:        #0a0d18;
+      --bg3:        #0e1220;
+      --border:     rgba(255,255,255,0.07);
+      --border2:    rgba(255,255,255,0.12);
+      --blue:       #4f8ef7;
+      --blue-dim:   rgba(79,142,247,0.12);
+      --blue-glow:  rgba(79,142,247,0.25);
+      --green:      #10d98a;
+      --green-dim:  rgba(16,217,138,0.1);
+      --amber:      #f5a623;
+      --amber-dim:  rgba(245,166,35,0.12);
+      --red:        #f75050;
+      --purple:     #a78bfa;
+      --text:       #b0bcce;
+      --text2:      #7888a0;
+      --head:       #e8edf5;
+      --head2:      #c5d0e0;
+      --mono:       'JetBrains Mono', monospace;
+      --sans:       'Plus Jakarta Sans', sans-serif;
+      --r:          6px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.65;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── MESH BG ─── */
+    .mesh-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 10% 20%, rgba(79,142,247,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 90% 80%, rgba(167,139,250,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* grid lines */
+    .grid-overlay {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(79,142,247,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(79,142,247,0.04) 1px, transparent 1px);
+      background-size: 56px 56px;
+      pointer-events: none;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 56px;
+      height: 64px;
+      background: rgba(6,8,15,0.80);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .nav-icon {
+      width: 30px; height: 30px;
+      background: var(--blue);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px;
+      box-shadow: 0 0 12px var(--blue-glow);
+    }
+
+    .nav-name {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--head);
+      letter-spacing: -0.3px;
+    }
+
+    .nav-tag {
+      font-size: 10px;
+      font-family: var(--mono);
+      background: var(--blue-dim);
+      color: var(--blue);
+      border: 1px solid rgba(79,142,247,0.25);
+      padding: 2px 8px;
+      border-radius: 100px;
+      letter-spacing: 0.04em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text2);
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: var(--r);
+      transition: color 0.15s, background 0.15s;
+    }
+    .nav-links a:hover { color: var(--head); background: rgba(255,255,255,0.05); }
+
+    .nav-actions { display: flex; align-items: center; gap: 10px; }
+
+    .btn-nav-gh {
+      display: flex; align-items: center; gap: 7px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border2);
+      color: var(--head2);
+      padding: 7px 16px;
+      border-radius: var(--r);
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .btn-nav-gh:hover { background: rgba(255,255,255,0.1); border-color: var(--border2); }
+
+    .btn-nav-primary {
+      background: var(--blue);
+      color: #fff;
+      padding: 7px 18px;
+      border-radius: var(--r);
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .btn-nav-primary:hover { opacity: 0.88; }
+
+    /* ─── ANNOUNCEMENT BANNER ─── */
+    .banner {
+      position: relative;
+      z-index: 1;
+      margin-top: 64px;
+      background: linear-gradient(90deg, rgba(79,142,247,0.12), rgba(16,217,138,0.08));
+      border-bottom: 1px solid rgba(79,142,247,0.2);
+      padding: 10px 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-size: 13px;
+    }
+
+    .banner-badge {
+      background: var(--blue);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 100px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .banner a { color: var(--blue); text-decoration: none; font-weight: 600; }
+    .banner a:hover { text-decoration: underline; }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      min-height: calc(100vh - 100px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 56px 60px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(16,217,138,0.3);
+      background: rgba(16,217,138,0.07);
+      color: var(--green);
+      font-family: var(--mono);
+      font-size: 11.5px;
+      font-weight: 500;
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+      letter-spacing: 0.04em;
+      animation: fadeUp 0.7s ease both;
+    }
+
+    .live-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: livePulse 2s ease-in-out infinite;
+    }
+
+    @keyframes livePulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(16,217,138,0.5); }
+      50%      { box-shadow: 0 0 0 5px rgba(16,217,138,0); }
+    }
+
+    .hero h1 {
+      font-family: var(--sans);
+      font-size: clamp(38px, 6vw, 76px);
+      font-weight: 800;
+      color: var(--head);
+      line-height: 1.05;
+      letter-spacing: -2.5px;
+      max-width: 820px;
+      animation: fadeUp 0.7s 0.08s ease both;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--blue) 0%, #8ab4ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      max-width: 580px;
+      margin: 22px auto 0;
+      font-size: 17px;
+      color: var(--text2);
+      line-height: 1.75;
+      font-weight: 400;
+      animation: fadeUp 0.7s 0.16s ease both;
+    }
+
+    .hero-badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 28px;
+      animation: fadeUp 0.7s 0.22s ease both;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--text2);
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 4px;
+    }
+
+    .badge .dot { width: 6px; height: 6px; border-radius: 50%; }
+    .badge.go .dot { background: #00acd7; }
+    .badge.k8s .dot { background: #326ce5; }
+    .badge.apache .dot { background: var(--green); }
+    .badge.ai .dot { background: var(--purple); }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 36px;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeUp 0.7s 0.28s ease both;
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: #fff;
+      padding: 13px 28px;
+      border-radius: var(--r);
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: opacity 0.15s, transform 0.15s;
+      box-shadow: 0 4px 20px rgba(79,142,247,0.35);
+    }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.05);
+      color: var(--head2);
+      border: 1px solid var(--border2);
+      padding: 13px 28px;
+      border-radius: var(--r);
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: background 0.15s;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.09); }
+
+    /* ─── TERMINAL / HERO DEMO ─── */
+    .hero-demo {
+      margin-top: 60px;
+      width: 100%;
+      max-width: 840px;
+      animation: fadeUp 0.7s 0.36s ease both;
+    }
+
+    .demo-window {
+      background: #080c16;
+      border: 1px solid var(--border2);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(79,142,247,0.08),
+        0 32px 80px rgba(0,0,0,0.7),
+        0 0 60px rgba(79,142,247,0.06);
+    }
+
+    .demo-topbar {
+      background: #0c1120;
+      padding: 11px 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .demo-dot { width: 11px; height: 11px; border-radius: 50%; }
+    .demo-dot.c1 { background: #ff5f57; }
+    .demo-dot.c2 { background: #febc2e; }
+    .demo-dot.c3 { background: #28c840; }
+
+    .demo-title {
+      margin: 0 auto;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text2);
+    }
+
+    .demo-tabs {
+      background: #0a0f1c;
+      display: flex;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .demo-tab {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 8px 18px;
+      color: var(--text2);
+      cursor: pointer;
+      border-right: 1px solid var(--border);
+      transition: background 0.15s, color 0.15s;
+      user-select: none;
+    }
+    .demo-tab.active { background: rgba(79,142,247,0.1); color: var(--blue); }
+    .demo-tab:hover:not(.active) { background: rgba(255,255,255,0.04); color: var(--head2); }
+
+    .demo-body {
+      padding: 22px 28px;
+      font-family: var(--mono);
+      font-size: 12.5px;
+      line-height: 1.9;
+      text-align: left;
+      min-height: 220px;
+    }
+
+    .demo-panel { display: none; }
+    .demo-panel.active { display: block; }
+
+    .t-pr { color: var(--green); user-select: none; }
+    .t-cm { color: var(--head); }
+    .t-ok { color: var(--green); }
+    .t-info { color: var(--blue); }
+    .t-warn { color: var(--amber); }
+    .t-err  { color: var(--red); }
+    .t-dim  { color: var(--text2); }
+    .t-key  { color: var(--purple); }
+    .t-val  { color: var(--amber); }
+    .t-str  { color: #98d982; }
+    .t-num  { color: #f08d49; }
+
+    .cursor {
+      display: inline-block;
+      width: 7px; height: 13px;
+      background: var(--blue);
+      vertical-align: middle;
+      margin-left: 2px;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    .tline { display: flex; gap: 2px; flex-wrap: wrap; }
+
+    /* ─── SECTION WRAPPER ─── */
+    .section-wrap {
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 96px 56px;
+    }
+
+    .section-sep {
+      height: 1px;
+      background: var(--border);
+      margin: 0;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--blue);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .eyebrow::before {
+      content: '';
+      display: block;
+      width: 14px;
+      height: 1px;
+      background: var(--blue);
+    }
+
+    h2.section-h {
+      font-family: var(--sans);
+      font-size: clamp(26px, 3.5vw, 44px);
+      font-weight: 800;
+      color: var(--head);
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+    }
+
+    .section-desc {
+      margin-top: 14px;
+      font-size: 16px;
+      color: var(--text2);
+      max-width: 520px;
+      line-height: 1.75;
+    }
+
+    /* ─── HOW IT WORKS / FLOW ─── */
+    .flow-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin-top: 56px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .flow-cell {
+      background: var(--bg);
+      padding: 36px 28px;
+      position: relative;
+      transition: background 0.2s;
+    }
+    .flow-cell:hover { background: var(--bg2); }
+
+    .flow-num {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text2);
+      letter-spacing: 0.12em;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .flow-num::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .flow-icon {
+      font-size: 26px;
+      margin-bottom: 14px;
+      line-height: 1;
+    }
+
+    .flow-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--head);
+      margin-bottom: 8px;
+    }
+
+    .flow-desc {
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.7;
+    }
+
+    /* ─── FEATURES ─── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 56px;
+    }
+
+    .feat-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 32px 28px;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feat-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 10%, var(--blue) 50%, transparent 90%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .feat-card:hover { border-color: rgba(79,142,247,0.3); background: var(--bg3); }
+    .feat-card:hover::after { opacity: 1; }
+
+    .feat-icon-wrap {
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 18px;
+    }
+
+    .feat-icon-wrap.blue   { background: var(--blue-dim);  border: 1px solid rgba(79,142,247,0.2); }
+    .feat-icon-wrap.green  { background: var(--green-dim); border: 1px solid rgba(16,217,138,0.2); }
+    .feat-icon-wrap.amber  { background: var(--amber-dim); border: 1px solid rgba(245,166,35,0.2); }
+    .feat-icon-wrap.purple { background: rgba(167,139,250,0.1); border: 1px solid rgba(167,139,250,0.2); }
+
+    .feat-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--head);
+      margin-bottom: 9px;
+    }
+
+    .feat-desc {
+      font-size: 13.5px;
+      color: var(--text2);
+      line-height: 1.7;
+    }
+
+    /* ─── ARCHITECTURE ─── */
+    .arch-wrap {
+      margin-top: 56px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .arch-topbar {
+      background: var(--bg3);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .arch-body {
+      padding: 40px 48px;
+    }
+
+    /* ─── ROADMAP ─── */
+    .roadmap {
+      margin-top: 56px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .rm-row {
+      display: grid;
+      grid-template-columns: 100px 160px 1fr;
+      align-items: center;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+    .rm-row:last-child { border-bottom: none; }
+    .rm-row:hover { background: var(--bg2); }
+
+    .rm-version {
+      padding: 20px 24px;
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--head);
+      border-right: 1px solid var(--border);
+    }
+
+    .rm-status {
+      padding: 20px 24px;
+      border-right: 1px solid var(--border);
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 100px;
+    }
+    .status-pill.active  { background: rgba(16,217,138,0.12); color: var(--green); border: 1px solid rgba(16,217,138,0.3); }
+    .status-pill.planned { background: rgba(79,142,247,0.1);  color: var(--blue);  border: 1px solid rgba(79,142,247,0.2); }
+
+    .status-pill .pip { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+    .rm-desc {
+      padding: 20px 28px;
+      font-size: 13.5px;
+      color: var(--text2);
+    }
+
+    .rm-desc strong { color: var(--head2); font-weight: 600; }
+
+    /* ─── INSTALL ─── */
+    .install-tabs {
+      display: flex;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      width: fit-content;
+      margin-bottom: 24px;
+    }
+
+    .install-tab {
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 8px 20px;
+      color: var(--text2);
+      cursor: pointer;
+      border-right: 1px solid var(--border);
+      background: var(--bg2);
+      transition: background 0.15s, color 0.15s;
+      user-select: none;
+    }
+    .install-tab:last-child { border-right: none; }
+    .install-tab.active { background: var(--blue-dim); color: var(--blue); }
+    .install-tab:hover:not(.active) { background: var(--bg3); color: var(--head2); }
+
+    .install-panel { display: none; }
+    .install-panel.active { display: block; }
+
+    .code-block {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .code-block-header {
+      background: var(--bg3);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text2);
+    }
+
+    .copy-all-btn {
+      background: none;
+      border: none;
+      color: var(--text2);
+      font-family: var(--mono);
+      font-size: 11px;
+      cursor: pointer;
+      padding: 3px 8px;
+      border-radius: 4px;
+      transition: color 0.15s, background 0.15s;
+    }
+    .copy-all-btn:hover { color: var(--head); background: rgba(255,255,255,0.07); }
+
+    .code-content {
+      padding: 20px 22px;
+      font-family: var(--mono);
+      font-size: 12.5px;
+      line-height: 1.9;
+    }
+
+    .step-line {
+      display: flex;
+      gap: 12px;
+      align-items: baseline;
+      margin-bottom: 4px;
+    }
+
+    .step-num-sm {
+      font-size: 10px;
+      color: var(--text2);
+      min-width: 16px;
+      user-select: none;
+    }
+
+    .c-comment { color: var(--text2); }
+    .c-cmd     { color: var(--head); }
+    .c-flag    { color: var(--blue); }
+    .c-arg     { color: var(--amber); }
+    .c-out-ok  { color: var(--green); padding-left: 28px; }
+    .c-out-dim { color: var(--text2); padding-left: 28px; }
+
+    /* ─── DOCS GRID ─── */
+    .docs-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 48px;
+    }
+
+    .doc-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 22px 20px;
+      text-decoration: none;
+      transition: border-color 0.15s, background 0.15s, transform 0.15s;
+      display: block;
+    }
+    .doc-card:hover { border-color: rgba(79,142,247,0.35); background: var(--bg3); transform: translateY(-2px); }
+
+    .doc-card-icon {
+      font-size: 22px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .doc-card-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--head);
+      margin-bottom: 6px;
+    }
+
+    .doc-card-desc {
+      font-size: 12px;
+      color: var(--text2);
+      line-height: 1.6;
+    }
+
+    /* ─── CONTRIBUTE ─── */
+    .contrib-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 48px;
+    }
+
+    .contrib-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 32px 28px;
+    }
+
+    .contrib-icon { font-size: 28px; margin-bottom: 14px; }
+    .contrib-title { font-size: 16px; font-weight: 700; color: var(--head); margin-bottom: 10px; }
+    .contrib-desc  { font-size: 13.5px; color: var(--text2); line-height: 1.7; margin-bottom: 18px; }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      border: 1px solid var(--border2);
+      color: var(--head2);
+      padding: 8px 18px;
+      border-radius: var(--r);
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+    }
+    .btn-outline:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-dim); }
+
+    /* ─── CTA FINAL ─── */
+    .cta-final {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cta-final::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 50% 50%, rgba(79,142,247,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 96px 56px;
+      text-align: center;
+    }
+
+    .cta-inner h2 {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 800;
+      color: var(--head);
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .cta-inner p {
+      font-size: 16px;
+      color: var(--text2);
+      line-height: 1.7;
+      margin-bottom: 36px;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      position: relative;
+      z-index: 1;
+      padding: 40px 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--head);
+    }
+
+    .footer-brand .fi {
+      width: 22px; height: 22px;
+      background: var(--blue);
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px;
+    }
+
+    .footer-copy {
+      font-size: 12px;
+      color: var(--text2);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 13px;
+      color: var(--text2);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .footer-links a:hover { color: var(--head); }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(18px); }
+      to   { opacity:1; transform:none; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .reveal.in { opacity:1; transform:none; }
+    .reveal-d1 { transition-delay: 0.05s; }
+    .reveal-d2 { transition-delay: 0.12s; }
+    .reveal-d3 { transition-delay: 0.20s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      .nav-links { display: none; }
+      nav { padding: 0 28px; }
+      .hero { padding: 60px 28px 60px; }
+      .section-inner { padding: 72px 28px; }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .docs-grid { grid-template-columns: repeat(2, 1fr); }
+      .flow-grid { grid-template-columns: repeat(2, 1fr); }
+      .rm-row { grid-template-columns: 80px 140px 1fr; }
+      .banner { padding: 10px 28px; }
+      footer { padding: 32px 28px; flex-direction: column; gap: 24px; text-align: center; }
+      .footer-links { flex-wrap: wrap; justify-content: center; }
+    }
+
+    @media (max-width: 640px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .contrib-grid  { grid-template-columns: 1fr; }
+      .docs-grid     { grid-template-columns: 1fr 1fr; }
+      .flow-grid     { grid-template-columns: 1fr; }
+      .rm-row        { grid-template-columns: 1fr; }
+      .rm-version, .rm-status { border-right: none; border-bottom: 1px solid var(--border); }
+      .hero h1 { letter-spacing: -1.5px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <a href="/" class="nav-brand">
+    <div class="nav-icon">⚙</div>
+    <span class="nav-name">RCA Operator</span>
+    <span class="nav-tag">v0.1</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#how-it-works">How It Works</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#install">Install</a></li>
+    <li><a href="#docs">Docs</a></li>
+    <li><a href="https://github.com/gaurangkudale/RCA-Operator/discussions" target="_blank">Community</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="https://github.com/gaurangkudale/RCA-Operator" target="_blank" class="btn-nav-gh">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.39.6.11.82-.26.82-.58v-2.03c-3.34.72-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3.01-.4c1.02 0 2.05.14 3.01.4 2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.82.58A12 12 0 0 0 24 12C24 5.37 18.63 0 12 0z"/></svg>
+      Star on GitHub
+    </a>
+    <a href="#install" class="btn-nav-primary">Get Started</a>
+  </div>
+</nav>
+
+<!-- ─── BANNER ─── -->
+<div class="banner">
+  <span class="banner-badge">NEW</span>
+  <span>RCA Operator v0.1 is actively being built — <a href="https://github.com/gaurangkudale/RCA-Operator" target="_blank">join us on GitHub</a> and shape the project</span>
+</div>
+
+<!-- ─── HERO ─── -->
+<div class="hero" style="position:relative;">
+  <div class="mesh-bg"></div>
+  <div class="grid-overlay"></div>
+
+  <div class="hero-eyebrow">
+    <span class="live-dot"></span>
+    Autonomous AI-Powered SRE Operator for Kubernetes
+  </div>
+
+  <h1>
+    Your cluster never<br/>
+    sleeps. Neither does<br/>
+    <em>RCA Operator.</em>
+  </h1>
+
+  <p class="hero-sub">
+    An open-source Kubernetes operator that watches your namespaces 24x7, correlates
+    signals across pods, nodes, and services, and autonomously performs root cause analysis
+    the moment an incident occurs.
+  </p>
+
+  <div class="hero-badges">
+    <span class="badge go"><span class="dot"></span>Go 1.22+</span>
+    <span class="badge k8s"><span class="dot"></span>Kubernetes 1.26+</span>
+    <span class="badge apache"><span class="dot"></span>Apache 2.0</span>
+    <span class="badge ai"><span class="dot"></span>AI-Powered RCA</span>
+    <span class="badge"><span class="dot" style="background:var(--amber)"></span>kubebuilder</span>
+  </div>
+
+  <div class="hero-actions">
+    <a href="#install" class="btn-primary">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm3.5 7.5h-3v-3a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1z"/></svg>
+      Quick Install
+    </a>
+    <a href="https://github.com/gaurangkudale/RCA-Operator" target="_blank" class="btn-secondary">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.39.6.11.82-.26.82-.58v-2.03c-3.34.72-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3.01-.4c1.02 0 2.05.14 3.01.4 2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.82.58A12 12 0 0 0 24 12C24 5.37 18.63 0 12 0z"/></svg>
+      View on GitHub
+    </a>
+    <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/docs/getting-started/quickstart.md" target="_blank" class="btn-secondary">
+      📖 Read Docs
+    </a>
+  </div>
+
+  <!-- DEMO TERMINAL -->
+  <div class="hero-demo">
+    <div class="demo-window">
+      <div class="demo-topbar">
+        <div class="demo-dot c1"></div>
+        <div class="demo-dot c2"></div>
+        <div class="demo-dot c3"></div>
+        <span class="demo-title">rca-operator — live cluster watch</span>
+      </div>
+      <div class="demo-tabs">
+        <div class="demo-tab active" onclick="switchTab(0)">kubectl logs</div>
+        <div class="demo-tab" onclick="switchTab(1)">IncidentReport</div>
+        <div class="demo-tab" onclick="switchTab(2)">RCAAgent CR</div>
+      </div>
+      <div class="demo-body">
+
+        <!-- Panel 0: logs -->
+        <div class="demo-panel active" id="panel-0">
+          <div class="tline"><span class="t-dim">time=</span><span class="t-str">"2025-03-17T09:14:01Z"</span>&nbsp;<span class="t-dim">level=</span><span class="t-info">info</span>&nbsp;<span class="t-dim">msg=</span><span class="t-str">"watcher started"</span>&nbsp;<span class="t-dim">namespaces=</span><span class="t-val">production,staging</span></div>
+          <div class="tline"><span class="t-dim">time=</span><span class="t-str">"2025-03-17T09:14:23Z"</span>&nbsp;<span class="t-dim">level=</span><span class="t-warn">warn</span>&nbsp;&nbsp;<span class="t-dim">msg=</span><span class="t-str">"pod OOMKilled"</span>&nbsp;<span class="t-dim">pod=</span><span class="t-val">api-server-7d9f6c</span>&nbsp;<span class="t-dim">exit=</span><span class="t-num">137</span></div>
+          <div class="tline"><span class="t-dim">time=</span><span class="t-str">"2025-03-17T09:14:24Z"</span>&nbsp;<span class="t-dim">level=</span><span class="t-warn">warn</span>&nbsp;&nbsp;<span class="t-dim">msg=</span><span class="t-str">"node memory pressure"</span>&nbsp;<span class="t-dim">node=</span><span class="t-val">worker-2</span></div>
+          <div class="tline"><span class="t-dim">time=</span><span class="t-str">"2025-03-17T09:14:24Z"</span>&nbsp;<span class="t-dim">level=</span><span class="t-info">info</span>&nbsp;<span class="t-dim">msg=</span><span class="t-str">"correlating signals"</span>&nbsp;<span class="t-dim">events=</span><span class="t-num">4</span>&nbsp;<span class="t-dim">window=</span><span class="t-val">30s</span></div>
+          <div class="tline"><span class="t-dim">time=</span><span class="t-str">"2025-03-17T09:14:25Z"</span>&nbsp;<span class="t-dim">level=</span><span class="t-info">info</span>&nbsp;<span class="t-dim">msg=</span><span class="t-str">"RCA complete"</span>&nbsp;<span class="t-dim">cause=</span><span class="t-err">OOMKilled</span>&nbsp;<span class="t-dim">confidence=</span><span class="t-ok">0.94</span></div>
+          <div class="tline"><span class="t-dim">time=</span><span class="t-str">"2025-03-17T09:14:25Z"</span>&nbsp;<span class="t-dim">level=</span><span class="t-ok">info</span>&nbsp;<span class="t-dim">msg=</span><span class="t-str">"IncidentReport created"</span>&nbsp;<span class="t-dim">name=</span><span class="t-val">incident-4f9c2</span></div>
+          <div class="tline"><span class="t-dim">time=</span><span class="t-str">"2025-03-17T09:14:26Z"</span>&nbsp;<span class="t-dim">level=</span><span class="t-ok">info</span>&nbsp;<span class="t-dim">msg=</span><span class="t-str">"Slack notification sent"</span>&nbsp;<span class="t-dim">channel=</span><span class="t-val">#incidents</span></div>
+          <div class="tline">&nbsp;</div>
+          <div class="tline"><span class="t-pr">$</span>&nbsp;<span class="cursor"></span></div>
+        </div>
+
+        <!-- Panel 1: IncidentReport -->
+        <div class="demo-panel" id="panel-1">
+          <div class="tline"><span class="t-key">apiVersion</span>: <span class="t-str">rca.operator.io/v1alpha1</span></div>
+          <div class="tline"><span class="t-key">kind</span>: <span class="t-info">IncidentReport</span></div>
+          <div class="tline"><span class="t-key">metadata</span>:</div>
+          <div class="tline">&nbsp;&nbsp;<span class="t-key">name</span>: <span class="t-str">incident-4f9c2</span></div>
+          <div class="tline">&nbsp;&nbsp;<span class="t-key">namespace</span>: <span class="t-str">production</span></div>
+          <div class="tline"><span class="t-key">status</span>:</div>
+          <div class="tline">&nbsp;&nbsp;<span class="t-key">phase</span>: <span class="t-ok">Resolved</span></div>
+          <div class="tline">&nbsp;&nbsp;<span class="t-key">rootCause</span>:</div>
+          <div class="tline">&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-key">type</span>: <span class="t-err">OOMKilled</span></div>
+          <div class="tline">&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-key">summary</span>: <span class="t-str">"No memory limits set on api-server"</span></div>
+          <div class="tline">&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-key">confidence</span>: <span class="t-num">0.94</span></div>
+          <div class="tline">&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-key">suggestion</span>: <span class="t-str">"Set resources.limits.memory in Deployment"</span></div>
+          <div class="tline">&nbsp;&nbsp;<span class="t-key">affectedPods</span>: [<span class="t-str">api-server-7d9f6c</span>]</div>
+        </div>
+
+        <!-- Panel 2: RCAAgent -->
+        <div class="demo-panel" id="panel-2">
+          <div class="tline"><span class="t-key">apiVersion</span>: <span class="t-str">rca.operator.io/v1alpha1</span></div>
+          <div class="tline"><span class="t-key">kind</span>: <span class="t-info">RCAAgent</span></div>
+          <div class="tline"><span class="t-key">metadata</span>:</div>
+          <div class="tline">&nbsp;&nbsp;<span class="t-key">name</span>: <span class="t-str">production-agent</span></div>
+          <div class="tline"><span class="t-key">spec</span>:</div>
+          <div class="tline">&nbsp;&nbsp;<span class="t-key">watchNamespaces</span>: [<span class="t-str">production</span>, <span class="t-str">staging</span>]</div>
+          <div class="tline">&nbsp;&nbsp;<span class="t-key">autonomyLevel</span>: <span class="t-warn">NotifyOnly</span>&nbsp;<span class="t-dim"># Notify | AutoRemediate</span></div>
+          <div class="tline">&nbsp;&nbsp;<span class="t-key">aiConfig</span>:</div>
+          <div class="tline">&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-key">provider</span>: <span class="t-str">openai</span></div>
+          <div class="tline">&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-key">secretRef</span>: <span class="t-str">rca-agent-openai-secret</span></div>
+          <div class="tline">&nbsp;&nbsp;<span class="t-key">notifications</span>:</div>
+          <div class="tline">&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-key">slack</span>: <span class="t-str">"#incidents"</span></div>
+          <div class="tline">&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-key">pagerduty</span>: <span class="t-str">enabled</span></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── HOW IT WORKS ─── -->
+<div class="section-sep"></div>
+<div class="section-wrap" id="how-it-works">
+  <div class="section-inner">
+    <div class="eyebrow">How it works</div>
+    <h2 class="section-h reveal">From incident to root cause<br/>in under 30 seconds</h2>
+    <p class="section-desc reveal reveal-d1">The traditional SRE loop takes minutes or hours. RCA Operator collapses it to seconds using real-time signal correlation and AI-assisted analysis.</p>
+
+    <div class="flow-grid reveal reveal-d2">
+      <div class="flow-cell">
+        <div class="flow-num">01</div>
+        <div class="flow-icon">🔭</div>
+        <div class="flow-title">Watch</div>
+        <div class="flow-desc">Subscribes to Kubernetes events, pod lifecycle changes, and metrics across watched namespaces 24x7 with zero missed events.</div>
+      </div>
+      <div class="flow-cell">
+        <div class="flow-num">02</div>
+        <div class="flow-icon">🔗</div>
+        <div class="flow-title">Correlate</div>
+        <div class="flow-desc">Builds a real-time dependency graph and correlates signals across pods, nodes, services, and HPA within a configurable time window.</div>
+      </div>
+      <div class="flow-cell">
+        <div class="flow-num">03</div>
+        <div class="flow-icon">🧠</div>
+        <div class="flow-title">Analyze</div>
+        <div class="flow-desc">Rule-based heuristics combined with AI/LLM analysis (OpenAI) surfaces the root cause with a confidence score and evidence chain.</div>
+      </div>
+      <div class="flow-cell">
+        <div class="flow-num">04</div>
+        <div class="flow-icon">📣</div>
+        <div class="flow-title">Act</div>
+        <div class="flow-desc">Creates an <code style="color:var(--blue);font-family:var(--mono);font-size:11px">IncidentReport</code> CR, notifies via Slack/PagerDuty, and optionally triggers autonomous remediation.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── FEATURES ─── -->
+<div class="section-sep"></div>
+<div class="section-wrap" id="features" style="background:var(--bg2);">
+  <div class="section-inner">
+    <div class="eyebrow">Capabilities</div>
+    <h2 class="section-h reveal">Production-grade features,<br/>built from day one</h2>
+
+    <div class="features-grid">
+      <div class="feat-card reveal">
+        <div class="feat-icon-wrap blue">⚡</div>
+        <div class="feat-title">24x7 Real-time Watching</div>
+        <div class="feat-desc">Continuously monitors pod events, node conditions, and resource states. Uses Kubernetes informers for zero-latency detection — no polling.</div>
+      </div>
+      <div class="feat-card reveal reveal-d1">
+        <div class="feat-icon-wrap purple">🧠</div>
+        <div class="feat-title">AI-Powered RCA Engine</div>
+        <div class="feat-desc">Integrates with OpenAI to analyze incidents beyond simple rules. Provides natural-language summaries, confidence scores, and remediation suggestions.</div>
+      </div>
+      <div class="feat-card reveal reveal-d2">
+        <div class="feat-icon-wrap green">🔗</div>
+        <div class="feat-title">Signal Correlation</div>
+        <div class="feat-desc">Cross-references events across pods, nodes, HPAs, and services to find root causes — not just surface symptoms. Dependency graph is built on the fly.</div>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon-wrap amber">🎯</div>
+        <div class="feat-title">Configurable Autonomy Levels</div>
+        <div class="feat-desc">From <code style="font-family:var(--mono);font-size:11px;color:var(--blue)">NotifyOnly</code> to <code style="font-family:var(--mono);font-size:11px;color:var(--blue)">AutoRemediate</code> — you choose how autonomous the operator is. Start cautious, graduate to full automation.</div>
+      </div>
+      <div class="feat-card reveal reveal-d1">
+        <div class="feat-icon-wrap blue">📋</div>
+        <div class="feat-title">Native K8s CRDs</div>
+        <div class="feat-desc"><code style="font-family:var(--mono);font-size:11px;color:var(--blue)">RCAAgent</code> and <code style="font-family:var(--mono);font-size:11px;color:var(--blue)">IncidentReport</code> are first-class Kubernetes objects. Full audit trail, queryable via kubectl, GitOps-compatible out of the box.</div>
+      </div>
+      <div class="feat-card reveal reveal-d2">
+        <div class="feat-icon-wrap green">📣</div>
+        <div class="feat-title">Rich Alert Enrichment</div>
+        <div class="feat-desc">Slack and PagerDuty notifications include the full root cause, affected resources, confidence score, and suggested fix — not just "something is broken."</div>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon-wrap amber">🔐</div>
+        <div class="feat-title">RBAC Native & Secure</div>
+        <div class="feat-desc">Runs with least-privilege permissions. Supports multi-tenant clusters with namespace-scoped RCAAgents. Security policy is documented and auditable.</div>
+      </div>
+      <div class="feat-card reveal reveal-d1">
+        <div class="feat-icon-wrap purple">🏗️</div>
+        <div class="feat-title">GitOps Friendly</div>
+        <div class="feat-desc">All configuration via CRDs — fits naturally into Flux, ArgoCD, and any GitOps workflow. Helm chart included for easy deployment.</div>
+      </div>
+      <div class="feat-card reveal reveal-d2">
+        <div class="feat-icon-wrap blue">🛠️</div>
+        <div class="feat-title">Built on kubebuilder</div>
+        <div class="feat-desc">Leverages kubebuilder and controller-runtime — the same foundation as Crossplane, Cluster API, and cert-manager. Production-grade controller patterns from day one.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── ARCHITECTURE ─── -->
+<div class="section-sep"></div>
+<div class="section-wrap">
+  <div class="section-inner">
+    <div class="eyebrow">Architecture</div>
+    <h2 class="section-h reveal">Designed for reliability<br/>at every layer</h2>
+    <p class="section-desc reveal reveal-d1">Built on battle-tested controller-runtime patterns. Each component is independently testable and replaceable.</p>
+
+    <div class="arch-wrap reveal reveal-d2">
+      <div class="arch-topbar">
+        <span style="color:var(--blue)">●</span>
+        &nbsp;rca-operator system architecture
+        &nbsp;·&nbsp;
+        <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/docs/concepts/Architecture.md" target="_blank" style="color:var(--blue);text-decoration:none;">full diagram →</a>
+      </div>
+      <div class="arch-body">
+        <svg viewBox="0 0 900 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:860px;display:block;margin:0 auto;">
+          <defs>
+            <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="rgba(79,142,247,0.6)"/>
+            </marker>
+          </defs>
+
+          <!-- Cluster border -->
+          <rect x="10" y="10" width="880" height="320" rx="10" fill="none" stroke="rgba(79,142,247,0.18)" stroke-width="1.5" stroke-dasharray="6,4"/>
+          <text x="28" y="30" font-family="JetBrains Mono,monospace" font-size="11" fill="rgba(79,142,247,0.5)">Kubernetes Cluster</text>
+
+          <!-- Operator box -->
+          <rect x="30" y="44" width="840" height="260" rx="8" fill="rgba(14,18,32,0.8)" stroke="rgba(79,142,247,0.12)" stroke-width="1"/>
+          <text x="48" y="64" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(176,188,206,0.5)">RCA Operator</text>
+
+          <!-- Boxes -->
+          <!-- Watcher -->
+          <rect x="50" y="78" width="140" height="64" rx="6" fill="#0e1628" stroke="rgba(79,142,247,0.3)" stroke-width="1"/>
+          <text x="120" y="107" font-family="Plus Jakarta Sans,sans-serif" font-size="12" font-weight="700" fill="#c5d0e0" text-anchor="middle">Watcher Layer</text>
+          <text x="120" y="123" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(176,188,206,0.5)" text-anchor="middle">Informers · Events</text>
+
+          <!-- Correlator -->
+          <rect x="240" y="78" width="140" height="64" rx="6" fill="#0e1628" stroke="rgba(79,142,247,0.3)" stroke-width="1"/>
+          <text x="310" y="107" font-family="Plus Jakarta Sans,sans-serif" font-size="12" font-weight="700" fill="#c5d0e0" text-anchor="middle">Correlator</text>
+          <text x="310" y="123" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(176,188,206,0.5)" text-anchor="middle">Graph · Triage</text>
+
+          <!-- RCA Engine -->
+          <rect x="430" y="78" width="150" height="64" rx="6" fill="#0e1628" stroke="rgba(167,139,250,0.4)" stroke-width="1"/>
+          <text x="505" y="103" font-family="Plus Jakarta Sans,sans-serif" font-size="12" font-weight="700" fill="#c5d0e0" text-anchor="middle">RCA Engine</text>
+          <text x="505" y="119" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(167,139,250,0.7)" text-anchor="middle">Rules + AI/LLM</text>
+          <text x="505" y="133" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(176,188,206,0.4)" text-anchor="middle">Confidence Scoring</text>
+
+          <!-- Incident Manager -->
+          <rect x="630" y="78" width="150" height="64" rx="6" fill="#0e1628" stroke="rgba(16,217,138,0.3)" stroke-width="1"/>
+          <text x="705" y="107" font-family="Plus Jakarta Sans,sans-serif" font-size="12" font-weight="700" fill="#c5d0e0" text-anchor="middle">Incident Manager</text>
+          <text x="705" y="123" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(16,217,138,0.7)" text-anchor="middle">IncidentReport CRD</text>
+
+          <!-- Remediation Engine -->
+          <rect x="50" y="196" width="140" height="64" rx="6" fill="#0e1628" stroke="rgba(245,166,35,0.3)" stroke-width="1"/>
+          <text x="120" y="221" font-family="Plus Jakarta Sans,sans-serif" font-size="12" font-weight="700" fill="#c5d0e0" text-anchor="middle">Remediation</text>
+          <text x="120" y="237" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(245,166,35,0.7)" text-anchor="middle">Playbooks · Runbooks</text>
+
+          <!-- Decision Engine -->
+          <rect x="240" y="196" width="140" height="64" rx="6" fill="#0e1628" stroke="rgba(79,142,247,0.25)" stroke-width="1"/>
+          <text x="310" y="225" font-family="Plus Jakarta Sans,sans-serif" font-size="12" font-weight="700" fill="#c5d0e0" text-anchor="middle">Decision Engine</text>
+          <text x="310" y="241" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(176,188,206,0.5)" text-anchor="middle">Autonomy Level</text>
+
+          <!-- Notification Layer -->
+          <rect x="430" y="196" width="350" height="64" rx="6" fill="#0e1628" stroke="rgba(16,217,138,0.25)" stroke-width="1"/>
+          <text x="605" y="221" font-family="Plus Jakarta Sans,sans-serif" font-size="12" font-weight="700" fill="#c5d0e0" text-anchor="middle">Reporting &amp; Notification Layer</text>
+          <text x="605" y="240" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(16,217,138,0.6)" text-anchor="middle">Slack · PagerDuty · Webhooks · K8s Events</text>
+
+          <!-- Arrows top row -->
+          <line x1="191" y1="110" x2="238" y2="110" stroke="rgba(79,142,247,0.5)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="381" y1="110" x2="428" y2="110" stroke="rgba(79,142,247,0.5)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="581" y1="110" x2="628" y2="110" stroke="rgba(79,142,247,0.5)" stroke-width="1.5" marker-end="url(#arr)"/>
+
+          <!-- Arrows top to bottom -->
+          <line x1="705" y1="143" x2="705" y2="160" stroke="rgba(16,217,138,0.4)" stroke-width="1.5"/>
+          <line x1="705" y1="160" x2="310" y2="160" stroke="rgba(16,217,138,0.4)" stroke-width="1.5"/>
+          <line x1="310" y1="160" x2="310" y2="194" stroke="rgba(16,217,138,0.4)" stroke-width="1.5" marker-end="url(#arr)"/>
+
+          <line x1="310" y1="261" x2="310" y2="270" stroke="rgba(79,142,247,0.4)" stroke-width="1.5"/>
+          <line x1="310" y1="270" x2="120" y2="270" stroke="rgba(79,142,247,0.4)" stroke-width="1.5"/>
+          <line x1="120" y1="270" x2="120" y2="261" stroke="rgba(79,142,247,0.4)" stroke-width="1.5" marker-end="url(#arr)"/>
+
+          <line x1="381" y1="228" x2="428" y2="228" stroke="rgba(79,142,247,0.4)" stroke-width="1.5" marker-end="url(#arr)"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── ROADMAP ─── -->
+<div class="section-sep"></div>
+<div class="section-wrap" id="roadmap" style="background:var(--bg2);">
+  <div class="section-inner">
+    <div class="eyebrow">Roadmap</div>
+    <h2 class="section-h reveal">From foundation to production-ready</h2>
+    <p class="section-desc reveal reveal-d1">A clear, phased roadmap from MVP to a CNCF-ready, multi-cluster operator with full web UI.</p>
+
+    <div class="roadmap reveal reveal-d2">
+      <div class="rm-row">
+        <div class="rm-version">v0.1</div>
+        <div class="rm-status"><span class="status-pill active"><span class="pip"></span>In Progress</span></div>
+        <div class="rm-desc"><strong>Foundation</strong> — CRDs, Pod watcher, event correlator, Slack &amp; PagerDuty notifications, Helm chart</div>
+      </div>
+      <div class="rm-row">
+        <div class="rm-version">v0.2</div>
+        <div class="rm-status"><span class="status-pill planned"><span class="pip"></span>Planned</span></div>
+        <div class="rm-desc"><strong>RCA Engine</strong> — Rule-based + AI/LLM analyzer, evidence gathering, confidence scoring, natural-language summaries</div>
+      </div>
+      <div class="rm-row">
+        <div class="rm-version">v0.3</div>
+        <div class="rm-status"><span class="status-pill planned"><span class="pip"></span>Planned</span></div>
+        <div class="rm-desc"><strong>Autonomous Remediation</strong> — Configurable autonomy levels, built-in playbooks, custom runbooks, safe rollback</div>
+      </div>
+      <div class="rm-row">
+        <div class="rm-version">v0.4</div>
+        <div class="rm-status"><span class="status-pill planned"><span class="pip"></span>Planned</span></div>
+        <div class="rm-desc"><strong>Observability</strong> — Auto post-mortems, Grafana dashboards, SLO tracking, Prometheus metrics</div>
+      </div>
+      <div class="rm-row">
+        <div class="rm-version">v1.0</div>
+        <div class="rm-status"><span class="status-pill planned"><span class="pip"></span>Planned</span></div>
+        <div class="rm-desc"><strong>Production Ready</strong> — OLM / OperatorHub listing, multi-cluster support, web UI, CNCF sandbox proposal</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── INSTALL ─── -->
+<div class="section-sep"></div>
+<div class="section-wrap" id="install">
+  <div class="section-inner">
+    <div class="eyebrow">Quick Start</div>
+    <h2 class="section-h reveal">Deployed in minutes,<br/>not hours</h2>
+    <p class="section-desc reveal reveal-d1">Choose kubectl or Helm. Both paths have your operator watching your cluster in under 5 minutes.</p>
+
+    <div style="margin-top:48px;" class="reveal reveal-d2">
+      <div class="install-tabs">
+        <div class="install-tab active" onclick="switchInstall(0)">kubectl</div>
+        <div class="install-tab" onclick="switchInstall(1)">helm</div>
+      </div>
+
+      <!-- kubectl panel -->
+      <div class="install-panel active" id="ipanel-0">
+        <div class="code-block">
+          <div class="code-block-header">
+            <span>install.sh</span>
+            <button class="copy-all-btn" onclick="copyBlock('kubectl-cmds')">Copy all</button>
+          </div>
+          <div class="code-content" id="kubectl-cmds">
+            <div class="step-line"><span class="step-num-sm">#1</span><span class="c-comment"># Install CRDs and operator</span></div>
+            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">kubectl apply -f <span class="c-arg">https://github.com/gaurangkudale/rca-operator/releases/latest/download/install.yaml</span></span></div>
+            <div style="height:10px"></div>
+            <div class="step-line"><span class="step-num-sm">#2</span><span class="c-comment"># Create OpenAI secret</span></div>
+            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">kubectl create secret generic <span class="c-arg">rca-agent-openai-secret</span> \</span></div>
+            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">&nbsp;&nbsp;<span class="c-flag">--from-literal</span>=apiKey=<span class="c-arg">&lt;YOUR_OPENAI_KEY&gt;</span> <span class="c-flag">-n</span> default</span></div>
+            <div style="height:10px"></div>
+            <div class="step-line"><span class="step-num-sm">#3</span><span class="c-comment"># Apply a minimal RCAAgent</span></div>
+            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">kubectl apply -f <span class="c-arg">config/samples/rca_v1alpha1_rcaagent.yaml</span></span></div>
+            <div style="height:10px"></div>
+            <div class="step-line"><span class="step-num-sm">#4</span><span class="c-comment"># Verify the operator is running</span></div>
+            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">kubectl get pods <span class="c-flag">-n</span> rca-system</span></div>
+            <div class="step-line c-out-ok">NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;READY&nbsp;&nbsp;STATUS&nbsp;&nbsp;&nbsp;AGE</div>
+            <div class="step-line c-out-ok">rca-operator-6b9f5d-xk2pq&nbsp;&nbsp;1/1&nbsp;&nbsp;&nbsp;&nbsp;Running&nbsp;&nbsp;12s</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- helm panel -->
+      <div class="install-panel" id="ipanel-1">
+        <div class="code-block">
+          <div class="code-block-header">
+            <span>helm-install.sh</span>
+            <button class="copy-all-btn" onclick="copyBlock('helm-cmds')">Copy all</button>
+          </div>
+          <div class="code-content" id="helm-cmds">
+            <div class="step-line"><span class="step-num-sm">#1</span><span class="c-comment"># Add the Helm repository</span></div>
+            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">helm repo add <span class="c-arg">rca-operator</span> <span class="c-arg">https://rca-operator.github.io/helm-charts</span></span></div>
+            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">helm repo update</span></div>
+            <div style="height:10px"></div>
+            <div class="step-line"><span class="step-num-sm">#2</span><span class="c-comment"># Install with your OpenAI key</span></div>
+            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">helm install <span class="c-arg">rca-operator</span> rca-operator/rca-operator \</span></div>
+            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">&nbsp;&nbsp;<span class="c-flag">--namespace</span> rca-system <span class="c-flag">--create-namespace</span> \</span></div>
+            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">&nbsp;&nbsp;<span class="c-flag">--set</span> ai.apiKey=<span class="c-arg">&lt;YOUR_OPENAI_KEY&gt;</span></span></div>
+            <div style="height:10px"></div>
+            <div class="step-line"><span class="step-num-sm">#3</span><span class="c-comment"># Check rollout status</span></div>
+            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">helm status <span class="c-arg">rca-operator</span> <span class="c-flag">-n</span> rca-system</span></div>
+            <div class="step-line c-out-ok">STATUS: deployed</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;display:flex;gap:14px;flex-wrap:wrap;">
+        <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/docs/getting-started/installation.md" target="_blank" class="btn-outline">📄 Full Installation Guide</a>
+        <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/docs/getting-started/quickstart.md" target="_blank" class="btn-outline">⚡ 5-min Quick Start</a>
+        <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/docs/getting-started/prerequisites.md" target="_blank" class="btn-outline">✅ Prerequisites</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── DOCS ─── -->
+<div class="section-sep"></div>
+<div class="section-wrap" id="docs" style="background:var(--bg2);">
+  <div class="section-inner">
+    <div class="eyebrow">Documentation</div>
+    <h2 class="section-h reveal">Everything you need<br/>to get productive</h2>
+
+    <div class="docs-grid">
+      <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/docs/getting-started/prerequisites.md" target="_blank" class="doc-card reveal">
+        <span class="doc-card-icon">✅</span>
+        <div class="doc-card-title">Prerequisites</div>
+        <div class="doc-card-desc">Cluster version, tools, and AI provider requirements before you begin.</div>
+      </a>
+      <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/docs/getting-started/installation.md" target="_blank" class="doc-card reveal reveal-d1">
+        <span class="doc-card-icon">📦</span>
+        <div class="doc-card-title">Installation</div>
+        <div class="doc-card-desc">Full kubectl and Helm installation guide with configuration options.</div>
+      </a>
+      <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/docs/getting-started/quickstart.md" target="_blank" class="doc-card reveal reveal-d2">
+        <span class="doc-card-icon">⚡</span>
+        <div class="doc-card-title">Quick Start</div>
+        <div class="doc-card-desc">Deploy your first RCAAgent and trigger an incident in under 5 minutes.</div>
+      </a>
+      <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/docs/concepts/Architecture.md" target="_blank" class="doc-card reveal reveal-d3">
+        <span class="doc-card-icon">🏗️</span>
+        <div class="doc-card-title">Architecture</div>
+        <div class="doc-card-desc">System design, data flow, and component interaction diagrams.</div>
+      </a>
+      <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/docs/reference/rcaagent-crd.md" target="_blank" class="doc-card reveal">
+        <span class="doc-card-icon">📋</span>
+        <div class="doc-card-title">RCAAgent CRD Reference</div>
+        <div class="doc-card-desc">Full field reference, autonomy levels, AI config, and namespace selectors.</div>
+      </a>
+      <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/docs/reference/watcher.md" target="_blank" class="doc-card reveal reveal-d1">
+        <span class="doc-card-icon">🔭</span>
+        <div class="doc-card-title">Watcher Reference</div>
+        <div class="doc-card-desc">Event catalog, detection thresholds, and CrashLoop exit-code context.</div>
+      </a>
+      <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/docs/reference/rbac.md" target="_blank" class="doc-card reveal reveal-d2">
+        <span class="doc-card-icon">🔐</span>
+        <div class="doc-card-title">RBAC Reference</div>
+        <div class="doc-card-desc">Permissions explained — what the operator needs and why.</div>
+      </a>
+      <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/docs/development/local-setup.md" target="_blank" class="doc-card reveal reveal-d3">
+        <span class="doc-card-icon">💻</span>
+        <div class="doc-card-title">Local Development</div>
+        <div class="doc-card-desc">Run the operator locally with Kind. Unit, integration, and e2e testing guides.</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ─── CONTRIBUTE ─── -->
+<div class="section-sep"></div>
+<div class="section-wrap">
+  <div class="section-inner">
+    <div class="eyebrow">Community</div>
+    <h2 class="section-h reveal">Built in the open.<br/>Shaped by the community.</h2>
+    <p class="section-desc reveal reveal-d1">RCA Operator is Apache 2.0 licensed and actively developed. Every contribution — bug reports, docs, playbooks, or code — moves us closer to production-ready.</p>
+
+    <div class="contrib-grid">
+      <div class="contrib-card reveal">
+        <div class="contrib-icon">🐛</div>
+        <div class="contrib-title">Report Issues & Request Features</div>
+        <div class="contrib-desc">Found a bug? Have an idea for a new analyzer, integration, or workflow improvement? Open an issue on GitHub — everything is triaged and prioritized transparently.</div>
+        <a href="https://github.com/gaurangkudale/RCA-Operator/issues" target="_blank" class="btn-outline">Open an Issue →</a>
+      </div>
+      <div class="contrib-card reveal reveal-d1">
+        <div class="contrib-icon">🧑‍💻</div>
+        <div class="contrib-title">Contribute Code or Docs</div>
+        <div class="contrib-desc">Read CONTRIBUTING.md and CODE_OF_CONDUCT.md, fork the repo, create a feature branch, run <code style="font-family:var(--mono);font-size:12px;color:var(--blue)">make test</code>, and open a Pull Request.</div>
+        <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/CONTRIBUTING.md" target="_blank" class="btn-outline">Contributing Guide →</a>
+      </div>
+      <div class="contrib-card reveal">
+        <div class="contrib-icon">💬</div>
+        <div class="contrib-title">Join Discussions</div>
+        <div class="contrib-desc">Use GitHub Discussions to ask questions, share your setup, propose architecture ideas, or just let us know how RCA Operator is working for you.</div>
+        <a href="https://github.com/gaurangkudale/RCA-Operator/discussions" target="_blank" class="btn-outline">Join Discussions →</a>
+      </div>
+      <div class="contrib-card reveal reveal-d1">
+        <div class="contrib-icon">⭐</div>
+        <div class="contrib-title">Star & Share</div>
+        <div class="contrib-desc">The best way to support the project is to give it a star on GitHub and share it with your SRE, platform engineering, and DevOps communities. It genuinely helps.</div>
+        <a href="https://github.com/gaurangkudale/RCA-Operator" target="_blank" class="btn-outline">Star on GitHub →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── CTA FINAL ─── -->
+<div class="section-sep"></div>
+<div class="cta-final">
+  <div class="cta-inner">
+    <div class="eyebrow" style="justify-content:center;">Get started today</div>
+    <h2>Stop waking up to alerts.<br/>Start waking up to answers.</h2>
+    <p>RCA Operator is free, open source, and ready to deploy into your cluster today. Your on-call rotation will thank you.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a href="#install" class="btn-primary" style="font-size:15px;padding:14px 32px;">
+        Deploy Now →
+      </a>
+      <a href="https://github.com/gaurangkudale/RCA-Operator" target="_blank" class="btn-secondary" style="font-size:15px;padding:14px 32px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.39.6.11.82-.26.82-.58v-2.03c-3.34.72-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3.01-.4c1.02 0 2.05.14 3.01.4 2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.82.58A12 12 0 0 0 24 12C24 5.37 18.63 0 12 0z"/></svg>
+        View on GitHub
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-left">
+    <div class="footer-brand">
+      <div class="fi">⚙</div>
+      RCA Operator
+    </div>
+    <div class="footer-copy">Apache 2.0 Licensed · Built with kubebuilder · Inspired by Google SRE</div>
+  </div>
+  <ul class="footer-links">
+    <li><a href="https://github.com/gaurangkudale/RCA-Operator" target="_blank">GitHub</a></li>
+    <li><a href="https://github.com/gaurangkudale/RCA-Operator/discussions" target="_blank">Discussions</a></li>
+    <li><a href="https://github.com/gaurangkudale/RCA-Operator/issues" target="_blank">Issues</a></li>
+    <li><a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/CONTRIBUTING.md" target="_blank">Contributing</a></li>
+    <li><a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/SECURITY.md" target="_blank">Security</a></li>
+    <li><a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/LICENSE" target="_blank">Apache 2.0</a></li>
+  </ul>
+</footer>
+
+<script>
+  /* scroll reveal */
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  /* demo tabs */
+  function switchTab(idx) {
+    document.querySelectorAll('.demo-tab').forEach((t,i) => t.classList.toggle('active', i===idx));
+    document.querySelectorAll('.demo-panel').forEach((p,i) => p.classList.toggle('active', i===idx));
+  }
+
+  /* install tabs */
+  function switchInstall(idx) {
+    document.querySelectorAll('.install-tab').forEach((t,i) => t.classList.toggle('active', i===idx));
+    document.querySelectorAll('.install-panel').forEach((p,i) => p.classList.toggle('active', i===idx));
+  }
+
+  /* copy block */
+  function copyBlock(id) {
+    const el = document.getElementById(id);
+    const text = el.innerText.replace(/^#\d+\s*/gm,'').replace(/[^\S\n]+\n/g,'\n').trim();
+    navigator.clipboard.writeText(text).then(() => {
+      event.target.textContent = 'Copied!';
+      setTimeout(() => event.target.textContent = 'Copy all', 2000);
+    });
+  }
+</script>
+</body>
+</html>
