@@ -3,10 +3,10 @@ entries:
   rca-operator:
   - apiVersion: v2
     appVersion: 0.1.3
-    created: "2026-03-21T18:03:50.515945221Z"
+    created: "2026-03-21T18:23:38.736916126Z"
     description: An AI-powered SRE Operator that watches your cluster 24x7 and performs
       autonomous root cause analysis
-    digest: 8dec21cad720c99f5cb101b2994ed155f875be66771be3f4bb866196b575f26e
+    digest: 094c4463bf73d2dc8c40d9e32e2c2c3043e4679d935b54b9c86ebc6169d6d36a
     home: https://github.com/gaurangkudale/RCA-Operator
     icon: https://raw.githubusercontent.com/gaurangkudale/RCA-Operator/main-gk/docs/images/logo.png
     keywords:
@@ -30,7 +30,7 @@ entries:
     version: 0.1.3
   - apiVersion: v2
     appVersion: 0.1.2
-    created: "2026-03-21T18:03:50.515412894Z"
+    created: "2026-03-21T18:23:38.736333654Z"
     description: An AI-powered SRE Operator that watches your cluster 24x7 and performs
       autonomous root cause analysis
     digest: fdabdbd7fc699033e08bca91deb0711ef1b6e08047662622086ab8baa99c8c62
@@ -55,4 +55,4 @@ entries:
     urls:
     - https://gaurangkudale.github.io/rca-operator.github.io/charts/rca-operator-0.1.2.tgz
     version: 0.1.2
-generated: "2026-03-21T18:03:50.514680533Z"
+generated: "2026-03-21T18:23:38.735631829Z"
