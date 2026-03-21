@@ -1370,32 +1370,26 @@
 
     <div style="margin-top:48px;" class="reveal reveal-d2">
       <div class="install-tabs">
-        <div class="install-tab active" onclick="switchInstall(0)">kubectl</div>
-        <div class="install-tab" onclick="switchInstall(1)">helm</div>
+        <div class="install-tab active" onclick="switchInstall(0)">Helm (recommended)</div>
+        <div class="install-tab" onclick="switchInstall(1)">kubectl</div>
       </div>
 
       <!-- kubectl panel -->
       <div class="install-panel active" id="ipanel-0">
         <div class="code-block">
           <div class="code-block-header">
-            <span>install.sh</span>
-            <button class="copy-all-btn" onclick="copyBlock('kubectl-cmds')">Copy all</button>
+            <span>helm-install.sh</span>
+            <button class="copy-all-btn" onclick="copyBlock('helm-cmds')">Copy all</button>
           </div>
-          <div class="code-content" id="kubectl-cmds">
-            <div class="step-line"><span class="step-num-sm">#1</span><span class="c-comment"># Install CRDs and operator</span></div>
-            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">kubectl apply -f <span class="c-arg">https://github.com/gaurangkudale/rca-operator/releases/latest/download/install.yaml</span></span></div>
+          <div class="code-content" id="helm-cmds">
+            <div class="step-line"><span class="step-num-sm">#1</span><span class="c-comment"># Add the RCA Operator Helm repository</span></div>
+            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">helm repo add <span class="c-arg">rca-operator</span> <span class="c-arg">https://gaurangkudale.github.io/rca-operator.github.io</span></span></div>
+            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">helm repo update</span></div>
             <div style="height:10px"></div>
-            <div class="step-line"><span class="step-num-sm">#2</span><span class="c-comment"># Create OpenAI secret</span></div>
-            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">kubectl create secret generic <span class="c-arg">rca-agent-openai-secret</span> \</span></div>
-            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">&nbsp;&nbsp;<span class="c-flag">--from-literal</span>=apiKey=<span class="c-arg">&lt;YOUR_OPENAI_KEY&gt;</span> <span class="c-flag">-n</span> default</span></div>
-            <div style="height:10px"></div>
-            <div class="step-line"><span class="step-num-sm">#3</span><span class="c-comment"># Apply a minimal RCAAgent</span></div>
-            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">kubectl apply -f <span class="c-arg">config/samples/rca_v1alpha1_rcaagent.yaml</span></span></div>
-            <div style="height:10px"></div>
-            <div class="step-line"><span class="step-num-sm">#4</span><span class="c-comment"># Verify the operator is running</span></div>
-            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">kubectl get pods <span class="c-flag">-n</span> rca-system</span></div>
-            <div class="step-line c-out-ok">NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;READY&nbsp;&nbsp;STATUS&nbsp;&nbsp;&nbsp;AGE</div>
-            <div class="step-line c-out-ok">rca-operator-6b9f5d-xk2pq&nbsp;&nbsp;1/1&nbsp;&nbsp;&nbsp;&nbsp;Running&nbsp;&nbsp;12s</div>
+            <div class="step-line"><span class="step-num-sm">#2</span><span class="c-comment"># Install the operator</span></div>
+            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">helm install <span class="c-arg">rca-operator</span> rca-operator/rca-operator \</span></div>
+            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">&nbsp;&nbsp;<span class="c-flag">--namespace</span> rca-system \</span></div>
+            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">&nbsp;&nbsp;<span class="c-flag">--create-namespace</span></span></div>
           </div>
         </div>
       </div>
@@ -1404,22 +1398,21 @@
       <div class="install-panel" id="ipanel-1">
         <div class="code-block">
           <div class="code-block-header">
-            <span>helm-install.sh</span>
-            <button class="copy-all-btn" onclick="copyBlock('helm-cmds')">Copy all</button>
+            <span>kubectl-install.sh</span>
+            <button class="copy-all-btn" onclick="copyBlock('kubectl-cmds')">Copy all</button>
           </div>
-          <div class="code-content" id="helm-cmds">
-            <div class="step-line"><span class="step-num-sm">#1</span><span class="c-comment"># Add the Helm repository</span></div>
-            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">helm repo add <span class="c-arg">rca-operator</span> <span class="c-arg">https://rca-operator.github.io/helm-charts</span></span></div>
-            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">helm repo update</span></div>
+          <div class="code-content" id="kubectl-cmds">
+            <div class="step-line"><span class="step-num-sm">#1</span><span class="c-comment"># Install CRDs and operator (all-in-one) - use specific version</span></div>
+            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">kubectl apply -f <span class="c-arg">https://github.com/gaurangkudale/RCA-Operator/releases/download/v0.0.4/install.yaml</span></span></div>
             <div style="height:10px"></div>
-            <div class="step-line"><span class="step-num-sm">#2</span><span class="c-comment"># Install with your OpenAI key</span></div>
-            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">helm install <span class="c-arg">rca-operator</span> rca-operator/rca-operator \</span></div>
-            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">&nbsp;&nbsp;<span class="c-flag">--namespace</span> rca-system <span class="c-flag">--create-namespace</span> \</span></div>
-            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">&nbsp;&nbsp;<span class="c-flag">--set</span> ai.apiKey=<span class="c-arg">&lt;YOUR_OPENAI_KEY&gt;</span></span></div>
+            <div class="step-line"><span class="step-num-sm">#2</span><span class="c-comment"># Or install CRDs separately (optional)</span></div>
+            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">kubectl apply -f <span class="c-arg">https://github.com/gaurangkudale/RCA-Operator/releases/download/v0.0.4/crds.yaml</span></span></div>
             <div style="height:10px"></div>
-            <div class="step-line"><span class="step-num-sm">#3</span><span class="c-comment"># Check rollout status</span></div>
-            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">helm status <span class="c-arg">rca-operator</span> <span class="c-flag">-n</span> rca-system</span></div>
-            <div class="step-line c-out-ok">STATUS: deployed</div>
+            <div class="step-line"><span class="step-num-sm">#3</span><span class="c-comment"># Verify the operator is running</span></div>
+            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">kubectl get pods -n rca-system</span></div>
+            <div class="step-line"><span class="step-num-sm">#4</span><span class="c-comment"># CRDs should be registered</span></div>
+            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">kubectl get crd rcaagents.rca.rca-operator.tech</span></div>
+            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">kubectl get crd incidentreports.rca.rca-operator.tech</span></div>
           </div>
         </div>
       </div>
