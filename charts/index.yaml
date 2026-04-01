@@ -3,10 +3,10 @@ entries:
   rca-operator:
   - apiVersion: v2
     appVersion: 0.0.4
-    created: "2026-03-21T19:13:38.576697822Z"
-    description: An AI-powered SRE Operator that watches your cluster 24x7 and performs
-      autonomous root cause analysis
-    digest: 597ad996fa6a1184cdf501bb218f9b626a2289f6b466e2c1b4695b66f2ba25e7
+    created: "2026-04-01T12:15:18.69748017Z"
+    description: A Kubernetes-native incident detection operator with durable incident
+      state and a built-in dashboard
+    digest: 2215cfbc1514ae4ba0687aebcafd4d336b7bcc3668717a9c2adb763e4aea3bdf
     home: https://github.com/gaurangkudale/RCA-Operator
     icon: https://raw.githubusercontent.com/gaurangkudale/RCA-Operator/main-gk/docs/images/logo.png
     keywords:
@@ -16,7 +16,6 @@ entries:
     - rca
     - root-cause-analysis
     - incident-management
-    - ai
     kubeVersion: '>=1.26.0-0'
     maintainers:
     - name: Gaurang Kudale
@@ -28,4 +27,4 @@ entries:
     urls:
     - https://gaurangkudale.github.io/rca-operator.github.io/charts/rca-operator-0.0.4.tgz
     version: 0.0.4
-generated: "2026-03-21T19:13:38.57590443Z"
+generated: "2026-04-01T12:15:18.696612866Z"
