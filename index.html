@@ -680,8 +680,9 @@
       padding: 3px 10px;
       border-radius: 100px;
     }
-    .status-pill.active  { background: rgba(16,217,138,0.12); color: var(--green); border: 1px solid rgba(16,217,138,0.3); }
-    .status-pill.planned { background: rgba(79,142,247,0.1);  color: var(--blue);  border: 1px solid rgba(79,142,247,0.2); }
+    .status-pill.active   { background: rgba(16,217,138,0.12); color: var(--green); border: 1px solid rgba(16,217,138,0.3); }
+    .status-pill.released { background: rgba(16,217,138,0.08); color: var(--green); border: 1px solid rgba(16,217,138,0.2); }
+    .status-pill.planned  { background: rgba(79,142,247,0.1);  color: var(--blue);  border: 1px solid rgba(79,142,247,0.2); }
 
     .status-pill .pip { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
 
@@ -953,6 +954,63 @@
     }
     .footer-links a:hover { color: var(--head); }
 
+    /* ─── COMING SOON ─── */
+    .coming-soon-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 48px;
+    }
+
+    .cs-card {
+      position: relative;
+      background: rgba(10,13,24,0.5);
+      border: 1px dashed rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 28px 24px;
+      opacity: 0.7;
+      transition: opacity 0.2s, border-color 0.2s, background 0.2s;
+    }
+    .cs-card:hover { opacity: 0.9; border-color: rgba(255,255,255,0.18); background: rgba(14,18,32,0.6); }
+
+    .cs-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-family: var(--mono);
+      font-size: 9px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 2px 8px;
+      border-radius: 100px;
+      background: rgba(245,166,35,0.12);
+      color: var(--amber);
+      border: 1px solid rgba(245,166,35,0.25);
+    }
+
+    .cs-icon {
+      font-size: 24px;
+      margin-bottom: 14px;
+      display: block;
+      opacity: 0.6;
+    }
+
+    .cs-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--head2);
+      margin-bottom: 8px;
+      opacity: 0.85;
+    }
+
+    .cs-desc {
+      font-size: 12.5px;
+      color: var(--text2);
+      line-height: 1.65;
+      opacity: 0.8;
+    }
+
     /* ─── ANIMATIONS ─── */
     @keyframes fadeUp {
       from { opacity:0; transform:translateY(18px); }
@@ -976,6 +1034,7 @@
       .hero { padding: 60px 28px 60px; }
       .section-inner { padding: 72px 28px; }
       .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .coming-soon-grid { grid-template-columns: repeat(2, 1fr); }
       .docs-grid { grid-template-columns: repeat(2, 1fr); }
       .flow-grid { grid-template-columns: repeat(2, 1fr); }
       .rm-row { grid-template-columns: 80px 140px 1fr; }
@@ -986,6 +1045,7 @@
 
     @media (max-width: 640px) {
       .features-grid { grid-template-columns: 1fr; }
+      .coming-soon-grid { grid-template-columns: 1fr; }
       .contrib-grid  { grid-template-columns: 1fr; }
       .docs-grid     { grid-template-columns: 1fr 1fr; }
       .flow-grid     { grid-template-columns: 1fr; }
@@ -1024,7 +1084,7 @@
 <!-- ─── BANNER ─── -->
 <div class="banner">
   <span class="banner-badge">NEW</span>
-  <span>RCA Operator Phase 1 is under active development — <a href="https://github.com/gaurangkudale/RCA-Operator" target="_blank">join us on GitHub</a> and shape the project</span>
+  <span>RCA Operator v0.0.6 released — Phase 1 foundation is complete! <a href="https://github.com/gaurangkudale/RCA-Operator" target="_blank">Star us on GitHub</a></span>
 </div>
 
 <!-- ─── HERO ─── -->
@@ -1051,7 +1111,7 @@
   </p>
 
   <div class="hero-badges">
-    <span class="badge go"><span class="dot"></span>Go 1.22+</span>
+    <span class="badge go"><span class="dot"></span>Go 1.25+</span>
     <span class="badge k8s"><span class="dot"></span>Kubernetes 1.26+</span>
     <span class="badge apache"><span class="dot"></span>Apache 2.0</span>
     <span class="badge"><span class="dot" style="background:var(--purple)"></span>Phase 1</span>
@@ -1235,6 +1295,92 @@
         <div class="feat-title">Built on kubebuilder</div>
         <div class="feat-desc">Leverages kubebuilder and controller-runtime — the same foundation as Crossplane, Cluster API, and cert-manager. Production-grade controller patterns from day one.</div>
       </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon-wrap green">🧩</div>
+        <div class="feat-title">Correlation Rule Engine</div>
+        <div class="feat-desc">5 built-in correlation rules plus dynamic CRD-based custom rules via <code style="font-family:var(--mono);font-size:11px;color:var(--blue)">RCACorrelationRule</code>. Priority-based evaluation, templated summaries — no operator redeploy needed.</div>
+      </div>
+      <div class="feat-card reveal reveal-d1">
+        <div class="feat-icon-wrap blue">📈</div>
+        <div class="feat-title">Prometheus Metrics</div>
+        <div class="feat-desc">11+ metrics tracking incident lifecycle, signal processing, rule evaluations, and notification delivery. Ready for Prometheus scraping out of the box.</div>
+      </div>
+      <div class="feat-card reveal reveal-d2">
+        <div class="feat-icon-wrap purple">🔭</div>
+        <div class="feat-title">OpenTelemetry Tracing</div>
+        <div class="feat-desc">Optional OTLP gRPC export for distributed tracing. Configurable endpoint, service name, sampling rate, and TLS — integrates with SigNoz or any OTel collector.</div>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon-wrap amber">🏗️</div>
+        <div class="feat-title">Leader Election &amp; HA</div>
+        <div class="feat-desc">Supports high-availability deployments with leader election. Single active incident writer ensures dedup correctness. Safe startup recovery from existing CRs.</div>
+      </div>
+      <div class="feat-card reveal reveal-d1">
+        <div class="feat-icon-wrap green">🗑️</div>
+        <div class="feat-title">Incident Retention &amp; Cleanup</div>
+        <div class="feat-desc">Configurable retention policy (default 30 days). Auto-prunes resolved <code style="font-family:var(--mono);font-size:11px;color:var(--blue)">IncidentReport</code> CRs. Supports minutes, hours, or days (e.g., 5m, 24h, 30d).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── COMING SOON ─── -->
+<div class="section-sep"></div>
+<div class="section-wrap">
+  <div class="section-inner">
+    <div class="eyebrow">Coming Soon</div>
+    <h2 class="section-h reveal">What's next on<br/>the roadmap</h2>
+    <p class="section-desc reveal reveal-d1">These features are planned for future phases. Follow the project on GitHub to stay updated as they land.</p>
+
+    <div class="coming-soon-grid">
+      <div class="cs-card reveal">
+        <span class="cs-badge">Planned</span>
+        <span class="cs-icon">🤖</span>
+        <div class="cs-title">AI/LLM Root Cause Analysis</div>
+        <div class="cs-desc">Intelligent root cause analysis powered by LLMs to automatically diagnose incident causes and suggest fixes.</div>
+      </div>
+      <div class="cs-card reveal reveal-d1">
+        <span class="cs-badge">Planned</span>
+        <span class="cs-icon">📝</span>
+        <div class="cs-title">Log Collection &amp; Analysis</div>
+        <div class="cs-desc">Integration with Loki, ELK, and other log aggregation systems for deep incident context.</div>
+      </div>
+      <div class="cs-card reveal reveal-d2">
+        <span class="cs-badge">Planned</span>
+        <span class="cs-icon">📊</span>
+        <div class="cs-title">Grafana Dashboards</div>
+        <div class="cs-desc">Pre-built Grafana dashboard templates for visualizing incident trends, signal patterns, and operator health.</div>
+      </div>
+      <div class="cs-card reveal reveal-d3">
+        <span class="cs-badge">Planned</span>
+        <span class="cs-icon">🎯</span>
+        <div class="cs-title">SLO Tracking</div>
+        <div class="cs-desc">Define and track Service Level Objectives with automatic incident correlation when SLOs are breached.</div>
+      </div>
+      <div class="cs-card reveal">
+        <span class="cs-badge">Planned</span>
+        <span class="cs-icon">📄</span>
+        <div class="cs-title">Auto Post-Mortems</div>
+        <div class="cs-desc">Structured incident summaries auto-generated after resolution with timeline, root cause, and affected resources.</div>
+      </div>
+      <div class="cs-card reveal reveal-d1">
+        <span class="cs-badge">Planned</span>
+        <span class="cs-icon">🌐</span>
+        <div class="cs-title">Multi-Cluster Support</div>
+        <div class="cs-desc">Federated incident detection across multiple Kubernetes clusters with centralized reporting.</div>
+      </div>
+      <div class="cs-card reveal reveal-d2">
+        <span class="cs-badge">Planned</span>
+        <span class="cs-icon">🔧</span>
+        <div class="cs-title">Autonomous Remediation</div>
+        <div class="cs-desc">Automated remediation actions triggered by specific incident patterns — restart pods, scale deployments, and more.</div>
+      </div>
+      <div class="cs-card reveal reveal-d3">
+        <span class="cs-badge">Planned</span>
+        <span class="cs-icon">🖥️</span>
+        <div class="cs-title">Full Web UI</div>
+        <div class="cs-desc">Rich web application for incident management, investigation workflows, and team collaboration beyond the built-in dashboard.</div>
+      </div>
     </div>
   </div>
 </div>
@@ -1340,24 +1486,24 @@
 
     <div class="roadmap reveal reveal-d2">
       <div class="rm-row">
-        <div class="rm-version">v0.0.4</div>
-        <div class="rm-status"><span class="status-pill active"><span class="pip"></span>In Progress</span></div>
+        <div class="rm-version">v0.0.6</div>
+        <div class="rm-status"><span class="status-pill released"><span class="pip"></span>Released</span></div>
         <div class="rm-desc"><strong>Phase 1 Foundation</strong> — Signal collectors (node, pod, workload, event), incident engine with 5-min stabilization, IncidentReport CRD, Slack &amp; PagerDuty notifications, built-in dashboard, Helm chart</div>
       </div>
       <div class="rm-row">
         <div class="rm-version">v0.1.0</div>
-        <div class="rm-status"><span class="status-pill planned"><span class="pip"></span>Planned</span></div>
-        <div class="rm-desc"><strong>Phase 1 Complete</strong> — Finalized incident lifecycle, startup recovery from CRs, CRD-driven correlation rules, OTel tracing, full test coverage, OperatorHub bundle</div>
+        <div class="rm-status"><span class="status-pill active"><span class="pip"></span>In Progress</span></div>
+        <div class="rm-desc"><strong>Phase 1 Complete</strong> — Correlation rule engine, OTel tracing, Prometheus metrics, startup recovery, leader election, incident retention, full test coverage</div>
       </div>
       <div class="rm-row">
         <div class="rm-version">v0.2.0</div>
         <div class="rm-status"><span class="status-pill planned"><span class="pip"></span>Planned</span></div>
-        <div class="rm-desc"><strong>Observability</strong> — Prometheus metrics, Grafana dashboards, SLO tracking, auto post-mortems with structured incident summaries</div>
+        <div class="rm-desc"><strong>Observability &amp; Intelligence</strong> — Grafana dashboards, SLO tracking, log collection, auto post-mortems, AI/LLM root cause analysis</div>
       </div>
       <div class="rm-row">
         <div class="rm-version">v1.0</div>
         <div class="rm-status"><span class="status-pill planned"><span class="pip"></span>Planned</span></div>
-        <div class="rm-desc"><strong>Production Ready</strong> — Multi-cluster support, full web UI, OLM / OperatorHub listing, CNCF sandbox proposal</div>
+        <div class="rm-desc"><strong>Production Ready</strong> — Multi-cluster support, full web UI, autonomous remediation, OLM / OperatorHub listing, CNCF sandbox proposal</div>
       </div>
     </div>
   </div>
