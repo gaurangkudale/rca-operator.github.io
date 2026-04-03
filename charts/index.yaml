@@ -3,10 +3,10 @@ entries:
   rca-operator:
   - apiVersion: v2
     appVersion: 0.0.7
-    created: "2026-04-02T05:20:38.654799657Z"
+    created: "2026-04-03T17:59:49.907548573Z"
     description: A Kubernetes-native incident detection operator with durable incident
       state and a built-in dashboard
-    digest: f9e3cc42ace6164087ea486b3b53a4445c26d669b1d70beb1dde76def39d559b
+    digest: 5264854a6b1c14c2142db161192e2aea9605fcf846ce6dd579ae036f19a26367
     home: https://github.com/gaurangkudale/RCA-Operator
     icon: https://raw.githubusercontent.com/gaurangkudale/RCA-Operator/main-gk/docs/images/logo.png
     keywords:
@@ -28,8 +28,8 @@ entries:
     - https://gaurangkudale.github.io/rca-operator.github.io/charts/rca-operator-0.0.7.tgz
     version: 0.0.7
   - apiVersion: v2
-    appVersion: 0.0.7
-    created: "2026-04-02T05:20:38.653990852Z"
+    appVersion: 0.0.4
+    created: "2026-04-03T17:59:49.90679562Z"
     description: A Kubernetes-native incident detection operator with durable incident
       state and a built-in dashboard
     digest: 2215cfbc1514ae4ba0687aebcafd4d336b7bcc3668717a9c2adb763e4aea3bdf
@@ -51,6 +51,6 @@ entries:
     - https://github.com/gaurangkudale/RCA-Operator
     type: application
     urls:
-    - https://gaurangkudale.github.io/rca-operator.github.io/charts/rca-operator-0.0.7.tgz
-    version: 0.0.7
-generated: "2026-04-02T05:20:38.653116264Z"
+    - https://gaurangkudale.github.io/rca-operator.github.io/charts/rca-operator-0.0.4.tgz
+    version: 0.0.4
+generated: "2026-04-03T17:59:49.90585065Z"
