@@ -989,6 +989,12 @@
       border: 1px solid rgba(245,166,35,0.25);
     }
 
+    .cs-badge.in-progress {
+      background: rgba(16,217,138,0.12);
+      color: var(--green);
+      border: 1px solid rgba(16,217,138,0.3);
+    }
+
     .cs-icon {
       font-size: 24px;
       margin-bottom: 14px;
@@ -1083,8 +1089,8 @@
 
 <!-- ─── BANNER ─── -->
 <div class="banner">
-  <span class="banner-badge">NEW</span>
-  <span>RCA Operator v0.0.15 released — Phase 1 foundation is complete! <a href="https://github.com/gaurangkudale/RCA-Operator" target="_blank">Star us on GitHub</a></span>
+  <span class="banner-badge">🔥 NEW</span>
+  <span>Phase 2 is starting! Correlation engine, Topology visualization, and OTel integrations coming soon. <a href="https://github.com/gaurangkudale/RCA-Operator" target="_blank">Star us on GitHub</a></span>
 </div>
 
 <!-- ─── HERO ─── -->
@@ -1246,7 +1252,7 @@
 <div class="section-sep"></div>
 <div class="section-wrap" id="features" style="background:var(--bg2);">
   <div class="section-inner">
-    <div class="eyebrow">Capabilities</div>
+    <div class="eyebrow">Phase 1 — Completed</div>
     <h2 class="section-h reveal">Production-grade features,<br/>built from day one</h2>
 
     <div class="features-grid">
@@ -1328,58 +1334,58 @@
 <div class="section-sep"></div>
 <div class="section-wrap">
   <div class="section-inner">
-    <div class="eyebrow">Coming Soon</div>
-    <h2 class="section-h reveal">What's next on<br/>the roadmap</h2>
-    <p class="section-desc reveal reveal-d1">These features are planned for future phases. Follow the project on GitHub to stay updated as they land.</p>
+    <div class="eyebrow">Phase 2</div>
+    <h2 class="section-h reveal">🔥 Phase 2 is starting</h2>
+    <p class="section-desc reveal reveal-d1">We're adding following features to make RCA Operator even more powerful. Follow the project on GitHub to stay updated.</p>
 
     <div class="coming-soon-grid">
       <div class="cs-card reveal">
-        <span class="cs-badge">Planned</span>
-        <span class="cs-icon">🤖</span>
-        <div class="cs-title">AI/LLM Root Cause Analysis</div>
-        <div class="cs-desc">Intelligent root cause analysis powered by LLMs to automatically diagnose incident causes and suggest fixes.</div>
+        <span class="cs-badge in-progress">In Progress</span>
+        <span class="cs-icon">🔗</span>
+        <div class="cs-title">Correlation Engine</div>
+        <div class="cs-desc">Correlate logs + metrics + traces together to pinpoint exact root causes. Cross-signal incident analysis powered by normalized data pipelines.</div>
       </div>
       <div class="cs-card reveal reveal-d1">
+        <span class="cs-badge in-progress">In Progress</span>
+        <span class="cs-icon">📊</span>
+        <div class="cs-title">Topology Visualization UI</div>
+        <div class="cs-desc">Interactive topology visualization showing service dependencies, failure propagation, and incident blast radius in real-time.</div>
+      </div>
+      <div class="cs-card reveal reveal-d2">
+        <span class="cs-badge in-progress">In Progress</span>
+        <span class="cs-icon">📡</span>
+        <div class="cs-title">OpenTelemetry Integrations</div>
+        <div class="cs-desc">Native OTel collector integration for automatic trace correlation, span-based incident detection, and distributed tracing context preservation.</div>
+      </div>
+      <div class="cs-card reveal reveal-d3">
+        <span class="cs-badge in-progress">In Progress</span>
+        <span class="cs-icon">🧠</span>
+        <div class="cs-title">Smarter RCA Insights</div>
+        <div class="cs-desc">AI-powered root cause analysis with LLM-driven investigations. Automatic anomaly detection and pattern-based incident prediction.</div>
+      </div>
+      <div class="cs-card reveal">
         <span class="cs-badge">Planned</span>
         <span class="cs-icon">📝</span>
         <div class="cs-title">Log Collection &amp; Analysis</div>
-        <div class="cs-desc">Integration with Loki, ELK, and other log aggregation systems for deep incident context.</div>
+        <div class="cs-desc">Deep integration with Loki, ELK, and Datadog for contextualized log analysis within incidents.</div>
       </div>
-      <div class="cs-card reveal reveal-d2">
+      <div class="cs-card reveal reveal-d1">
         <span class="cs-badge">Planned</span>
-        <span class="cs-icon">📊</span>
+        <span class="cs-icon">📈</span>
         <div class="cs-title">Grafana Dashboards</div>
         <div class="cs-desc">Pre-built Grafana dashboard templates for visualizing incident trends, signal patterns, and operator health.</div>
       </div>
-      <div class="cs-card reveal reveal-d3">
+      <div class="cs-card reveal reveal-d2">
         <span class="cs-badge">Planned</span>
         <span class="cs-icon">🎯</span>
         <div class="cs-title">SLO Tracking</div>
         <div class="cs-desc">Define and track Service Level Objectives with automatic incident correlation when SLOs are breached.</div>
       </div>
-      <div class="cs-card reveal">
-        <span class="cs-badge">Planned</span>
-        <span class="cs-icon">📄</span>
-        <div class="cs-title">Auto Post-Mortems</div>
-        <div class="cs-desc">Structured incident summaries auto-generated after resolution with timeline, root cause, and affected resources.</div>
-      </div>
-      <div class="cs-card reveal reveal-d1">
-        <span class="cs-badge">Planned</span>
-        <span class="cs-icon">🌐</span>
-        <div class="cs-title">Multi-Cluster Support</div>
-        <div class="cs-desc">Federated incident detection across multiple Kubernetes clusters with centralized reporting.</div>
-      </div>
-      <div class="cs-card reveal reveal-d2">
+      <div class="cs-card reveal reveal-d3">
         <span class="cs-badge">Planned</span>
         <span class="cs-icon">🔧</span>
         <div class="cs-title">Autonomous Remediation</div>
         <div class="cs-desc">Automated remediation actions triggered by specific incident patterns — restart pods, scale deployments, and more.</div>
-      </div>
-      <div class="cs-card reveal reveal-d3">
-        <span class="cs-badge">Planned</span>
-        <span class="cs-icon">🖥️</span>
-        <div class="cs-title">Full Web UI</div>
-        <div class="cs-desc">Rich web application for incident management, investigation workflows, and team collaboration beyond the built-in dashboard.</div>
       </div>
     </div>
   </div>
@@ -1491,9 +1497,9 @@
         <div class="rm-desc"><strong>Phase 1 Foundation</strong> — Signal collectors (node, pod, workload, event), incident engine with 5-min stabilization, IncidentReport CRD, Slack &amp; PagerDuty notifications, built-in dashboard, Helm chart</div>
       </div>
       <div class="rm-row">
-        <div class="rm-version">v0.0.15</div>
+        <div class="rm-version">v0.0.16</div>
         <div class="rm-status"><span class="status-pill active"><span class="pip"></span>In Progress</span></div>
-        <div class="rm-desc"><strong>Phase 1 Complete</strong> — Correlation rule engine, OTel tracing, Prometheus metrics, startup recovery, leader election, incident retention, full test coverage</div>
+        <div class="rm-desc"><strong>Phase 2 — Correlation &amp; Topology</strong> — Correlation engine (logs + metrics + traces), topology visualization UI, OpenTelemetry integrations, smarter RCA insights, startup recovery, leader election, incident retention, full test coverage</div>
       </div>
       <div class="rm-row">
         <div class="rm-version">v0.2.0</div>
