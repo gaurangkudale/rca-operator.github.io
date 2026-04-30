@@ -2,8 +2,47 @@ apiVersion: v1
 entries:
   rca-operator:
   - apiVersion: v2
+    appVersion: 0.0.16
+    created: "2026-04-30T18:51:15.335388663Z"
+    dependencies:
+    - alias: opentelemetryOperator
+      condition: opentelemetryOperator.enabled
+      name: opentelemetry-operator
+      repository: https://open-telemetry.github.io/opentelemetry-helm-charts
+      version: 0.109.2
+    - condition: jaeger.enabled
+      name: jaeger
+      repository: https://jaegertracing.github.io/helm-charts
+      version: 4.7.0
+    description: A Kubernetes-native incident detection operator with durable incident
+      state and a built-in dashboard
+    digest: 6d2973525fe9ae35920fcad66fd968cd14cbc24fbf4c452563d60ef9c80891ab
+    home: https://github.com/gaurangkudale/RCA-Operator
+    icon: https://raw.githubusercontent.com/gaurangkudale/RCA-Operator/main-gk/docs/images/logo.png
+    keywords:
+    - kubernetes
+    - operator
+    - sre
+    - rca
+    - root-cause-analysis
+    - incident-management
+    - opentelemetry
+    - tracing
+    - jaeger
+    kubeVersion: '>=1.26.0-0'
+    maintainers:
+    - name: Gaurang Kudale
+      url: https://github.com/gaurangkudale
+    name: rca-operator
+    sources:
+    - https://github.com/gaurangkudale/RCA-Operator
+    type: application
+    urls:
+    - https://gaurangkudale.github.io/rca-operator.github.io/charts/rca-operator-0.0.16.tgz
+    version: 0.0.16
+  - apiVersion: v2
     appVersion: 0.0.15
-    created: "2026-04-05T07:47:20.735331169Z"
+    created: "2026-04-30T18:51:15.327651269Z"
     description: A Kubernetes-native incident detection operator with durable incident
       state and a built-in dashboard
     digest: a13f32d3324077d1f90b8dc94f67261b1b0cdeeb6dc436d720a7be1c426bc00f
@@ -29,7 +68,7 @@ entries:
     version: 0.0.15
   - apiVersion: v2
     appVersion: 0.0.14
-    created: "2026-04-05T07:47:20.734566005Z"
+    created: "2026-04-30T18:51:15.326924411Z"
     description: A Kubernetes-native incident detection operator with durable incident
       state and a built-in dashboard
     digest: bc317f4945918588d2cc7d8e3867252fd5b77fd4ca672c316b07d0b82027fcbc
@@ -55,7 +94,7 @@ entries:
     version: 0.0.14
   - apiVersion: v2
     appVersion: 0.0.12
-    created: "2026-04-05T07:47:20.733830942Z"
+    created: "2026-04-30T18:51:15.326151127Z"
     description: A Kubernetes-native incident detection operator with durable incident
       state and a built-in dashboard
     digest: 6a305b99ef8fce60615a250481a7a25bf5b4205770af1c398fea6a38229a2f57
@@ -81,7 +120,7 @@ entries:
     version: 0.0.12
   - apiVersion: v2
     appVersion: 0.0.11
-    created: "2026-04-05T07:47:20.733012579Z"
+    created: "2026-04-30T18:51:15.325400673Z"
     description: A Kubernetes-native incident detection operator with durable incident
       state and a built-in dashboard
     digest: 8c8e97abddfc8bdbb2e71d4b461fb24e806023c36dc7afe032ac5a205cd7fac2
@@ -107,7 +146,7 @@ entries:
     version: 0.0.11
   - apiVersion: v2
     appVersion: 0.0.10
-    created: "2026-04-05T07:47:20.732226737Z"
+    created: "2026-04-30T18:51:15.324638579Z"
     description: A Kubernetes-native incident detection operator with durable incident
       state and a built-in dashboard
     digest: 9c96a18b070e15066e2fec059713e64687ffea2cc0896bfc0025ac93c5cbe91e
@@ -133,7 +172,7 @@ entries:
     version: 0.0.10
   - apiVersion: v2
     appVersion: 0.0.7
-    created: "2026-04-05T07:47:20.736784541Z"
+    created: "2026-04-30T18:51:15.336793812Z"
     description: A Kubernetes-native incident detection operator with durable incident
       state and a built-in dashboard
     digest: 4aee3ca7d995aa9fd86ed3aa4596c1885a928c46b9e1f8647e498ebbc61da091
@@ -159,7 +198,7 @@ entries:
     version: 0.0.7
   - apiVersion: v2
     appVersion: 0.0.4
-    created: "2026-04-05T07:47:20.736044941Z"
+    created: "2026-04-30T18:51:15.33609597Z"
     description: A Kubernetes-native incident detection operator with durable incident
       state and a built-in dashboard
     digest: 2215cfbc1514ae4ba0687aebcafd4d336b7bcc3668717a9c2adb763e4aea3bdf
@@ -183,4 +222,4 @@ entries:
     urls:
     - https://gaurangkudale.github.io/rca-operator.github.io/charts/rca-operator-0.0.4.tgz
     version: 0.0.4
-generated: "2026-04-05T07:47:20.730328564Z"
+generated: "2026-04-30T18:51:15.323769926Z"
