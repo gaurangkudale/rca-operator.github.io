@@ -1068,7 +1068,7 @@
   <a href="/" class="nav-brand">
     <div class="nav-icon"><img src="assets/images/logo.png" alt="RCA Operator"></div>
     <span class="nav-name">RCA Operator</span>
-    <span class="nav-tag">Phase 1</span>
+    <span class="nav-tag">Phase 2 Released</span>
   </a>
   <ul class="nav-links">
     <li><a href="#how-it-works">How It Works</a></li>
@@ -1089,8 +1089,8 @@
 
 <!-- ─── BANNER ─── -->
 <div class="banner">
-  <span class="banner-badge">🔥 NEW</span>
-  <span>Phase 2 is starting! Correlation engine, Topology visualization, and OTel integrations coming soon. <a href="https://github.com/gaurangkudale/RCA-Operator" target="_blank">Star us on GitHub</a></span>
+  <span class="banner-badge">NEW</span>
+  <span>Phase 2 is released: OTLP ingest, OpenTelemetry Collector resources, Jaeger-backed topology, and service graph views. <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main/docs/phases/PHASE2_RELEASE_NOTES.md" target="_blank">Read release notes</a></span>
 </div>
 
 <!-- ─── HERO ─── -->
@@ -1100,7 +1100,7 @@
 
   <div class="hero-eyebrow">
     <span class="live-dot"></span>
-    Kubernetes-Native Incident Detection Operator — Phase 1
+    Kubernetes-Native Incident Correlation Operator — Phase 2 Released
   </div>
 
   <h1>
@@ -1110,18 +1110,18 @@
   </h1>
 
   <p class="hero-sub">
-    An open-source Kubernetes operator that detects cluster incidents using only
-    native Kubernetes APIs, deduplicates signals into durable
+    An open-source Kubernetes RCA Operator correlates Kubernetes events, OpenTelemetry traces, and logs into durable
     <code style="font-family:var(--mono);font-size:14px;color:var(--blue)">IncidentReport</code>
-    records, and serves a built-in incident dashboard — no external databases or AI required.
+    records, enriches them with service topology, and serves a built-in dashboard for incident review.
   </p>
 
   <div class="hero-badges">
     <span class="badge go"><span class="dot"></span>Go 1.25+</span>
     <span class="badge k8s"><span class="dot"></span>Kubernetes 1.26+</span>
     <span class="badge mit"><span class="dot"></span>MIT License</span>
-    <span class="badge"><span class="dot" style="background:var(--purple)"></span>Phase 1</span>
-    <span class="badge"><span class="dot" style="background:var(--amber)"></span>kubebuilder</span>
+    <span class="badge"><span class="dot" style="background:var(--purple)"></span>Phase 2</span>
+    <span class="badge"><span class="dot" style="background:var(--amber)"></span>OpenTelemetry</span>
+    <span class="badge"><span class="dot" style="background:var(--blue)"></span>Jaeger topology</span>
   </div>
 
   <div class="hero-actions">
@@ -1133,8 +1133,8 @@
       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.39.6.11.82-.26.82-.58v-2.03c-3.34.72-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3.01-.4c1.02 0 2.05.14 3.01.4 2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.82.58A12 12 0 0 0 24 12C24 5.37 18.63 0 12 0z"/></svg>
       View on GitHub
     </a>
-    <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/docs/getting-started/quickstart.md" target="_blank" class="btn-secondary">
-      📖 Read Docs
+    <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main/docs/getting-started/quickstart.md" target="_blank" class="btn-secondary">
+      Read Docs
     </a>
   </div>
 
@@ -1145,24 +1145,24 @@
         <div class="demo-dot c1"></div>
         <div class="demo-dot c2"></div>
         <div class="demo-dot c3"></div>
-        <span class="demo-title">rca-operator — live cluster watch</span>
+        <span class="demo-title">rca-operator — phase 2 signal pipeline</span>
       </div>
       <div class="demo-tabs">
-        <div class="demo-tab active" onclick="switchTab(0)">kubectl logs</div>
+        <div class="demo-tab active" onclick="switchTab(0)">signal pipeline</div>
         <div class="demo-tab" onclick="switchTab(1)">IncidentReport</div>
-        <div class="demo-tab" onclick="switchTab(2)">RCAAgent CR</div>
+        <div class="demo-tab" onclick="switchTab(2)">Helm profile</div>
       </div>
       <div class="demo-body">
 
         <!-- Panel 0: logs -->
         <div class="demo-panel active" id="panel-0">
-          <div class="tline"><span class="t-dim">time=</span><span class="t-str">"2025-03-17T09:14:01Z"</span>&nbsp;<span class="t-dim">level=</span><span class="t-info">info</span>&nbsp;<span class="t-dim">msg=</span><span class="t-str">"collector started"</span>&nbsp;<span class="t-dim">namespaces=</span><span class="t-val">production,staging</span></div>
-          <div class="tline"><span class="t-dim">time=</span><span class="t-str">"2025-03-17T09:14:23Z"</span>&nbsp;<span class="t-dim">level=</span><span class="t-warn">warn</span>&nbsp;&nbsp;<span class="t-dim">msg=</span><span class="t-str">"signal received"</span>&nbsp;<span class="t-dim">reason=</span><span class="t-err">OOMKilled</span>&nbsp;<span class="t-dim">pod=</span><span class="t-val">api-server-7d9f6c</span></div>
-          <div class="tline"><span class="t-dim">time=</span><span class="t-str">"2025-03-17T09:14:24Z"</span>&nbsp;<span class="t-dim">level=</span><span class="t-warn">warn</span>&nbsp;&nbsp;<span class="t-dim">msg=</span><span class="t-str">"signal received"</span>&nbsp;<span class="t-dim">reason=</span><span class="t-err">NodeMemoryPressure</span>&nbsp;<span class="t-dim">node=</span><span class="t-val">worker-2</span></div>
-          <div class="tline"><span class="t-dim">time=</span><span class="t-str">"2025-03-17T09:14:24Z"</span>&nbsp;<span class="t-dim">level=</span><span class="t-info">info</span>&nbsp;<span class="t-dim">msg=</span><span class="t-str">"incident detecting"</span>&nbsp;<span class="t-dim">fingerprint=</span><span class="t-val">ns|WorkloadCrashLoop|api-server</span></div>
-          <div class="tline"><span class="t-dim">time=</span><span class="t-str">"2025-03-17T09:19:24Z"</span>&nbsp;<span class="t-dim">level=</span><span class="t-ok">info</span>&nbsp;<span class="t-dim">msg=</span><span class="t-str">"incident activated"</span>&nbsp;<span class="t-dim">stabilization=</span><span class="t-num">5m0s</span>&nbsp;<span class="t-dim">severity=</span><span class="t-err">P2</span></div>
-          <div class="tline"><span class="t-dim">time=</span><span class="t-str">"2025-03-17T09:19:25Z"</span>&nbsp;<span class="t-dim">level=</span><span class="t-ok">info</span>&nbsp;<span class="t-dim">msg=</span><span class="t-str">"IncidentReport created"</span>&nbsp;<span class="t-dim">name=</span><span class="t-val">incident-4f9c2</span></div>
-          <div class="tline"><span class="t-dim">time=</span><span class="t-str">"2025-03-17T09:19:26Z"</span>&nbsp;<span class="t-dim">level=</span><span class="t-ok">info</span>&nbsp;<span class="t-dim">msg=</span><span class="t-str">"Slack notification sent"</span>&nbsp;<span class="t-dim">channel=</span><span class="t-val">#incidents</span></div>
+          <div class="tline"><span class="t-dim">time=</span><span class="t-str">"2026-04-30T07:12:01Z"</span>&nbsp;<span class="t-dim">level=</span><span class="t-info">info</span>&nbsp;<span class="t-dim">msg=</span><span class="t-str">"otel receiver started"</span>&nbsp;<span class="t-dim">endpoint=</span><span class="t-val">0.0.0.0:4317</span></div>
+          <div class="tline"><span class="t-dim">time=</span><span class="t-str">"2026-04-30T07:12:08Z"</span>&nbsp;<span class="t-dim">level=</span><span class="t-warn">warn</span>&nbsp;&nbsp;<span class="t-dim">msg=</span><span class="t-str">"span translated"</span>&nbsp;<span class="t-dim">service=</span><span class="t-val">checkout</span>&nbsp;<span class="t-dim">status=</span><span class="t-err">ERROR</span></div>
+          <div class="tline"><span class="t-dim">time=</span><span class="t-str">"2026-04-30T07:12:09Z"</span>&nbsp;<span class="t-dim">level=</span><span class="t-warn">warn</span>&nbsp;&nbsp;<span class="t-dim">msg=</span><span class="t-str">"log translated"</span>&nbsp;<span class="t-dim">severity=</span><span class="t-err">ERROR</span>&nbsp;<span class="t-dim">trace_id=</span><span class="t-val">6f8c9b2a</span></div>
+          <div class="tline"><span class="t-dim">time=</span><span class="t-str">"2026-04-30T07:12:10Z"</span>&nbsp;<span class="t-dim">level=</span><span class="t-info">info</span>&nbsp;<span class="t-dim">msg=</span><span class="t-str">"correlation rule fired"</span>&nbsp;<span class="t-dim">rule=</span><span class="t-val">checkout-latency-spike</span></div>
+          <div class="tline"><span class="t-dim">time=</span><span class="t-str">"2026-04-30T07:12:12Z"</span>&nbsp;<span class="t-dim">level=</span><span class="t-ok">info</span>&nbsp;<span class="t-dim">msg=</span><span class="t-str">"incident graph built"</span>&nbsp;<span class="t-dim">nodes=</span><span class="t-num">8</span>&nbsp;<span class="t-dim">edges=</span><span class="t-num">11</span></div>
+          <div class="tline"><span class="t-dim">time=</span><span class="t-str">"2026-04-30T07:12:13Z"</span>&nbsp;<span class="t-dim">level=</span><span class="t-ok">info</span>&nbsp;<span class="t-dim">msg=</span><span class="t-str">"IncidentReport updated"</span>&nbsp;<span class="t-dim">name=</span><span class="t-val">checkout-6f8c9</span></div>
+          <div class="tline"><span class="t-dim">time=</span><span class="t-str">"2026-04-30T07:12:14Z"</span>&nbsp;<span class="t-dim">level=</span><span class="t-ok">info</span>&nbsp;<span class="t-dim">msg=</span><span class="t-str">"trace detail available"</span>&nbsp;<span class="t-dim">source=</span><span class="t-val">jaeger-query</span></div>
           <div class="tline">&nbsp;</div>
           <div class="tline"><span class="t-pr">$</span>&nbsp;<span class="cursor"></span></div>
         </div>
@@ -1172,38 +1172,34 @@
           <div class="tline"><span class="t-key">apiVersion</span>: <span class="t-str">rca.rca-operator.tech/v1alpha1</span></div>
           <div class="tline"><span class="t-key">kind</span>: <span class="t-info">IncidentReport</span></div>
           <div class="tline"><span class="t-key">metadata</span>:</div>
-          <div class="tline">&nbsp;&nbsp;<span class="t-key">name</span>: <span class="t-str">incident-4f9c2</span></div>
+          <div class="tline">&nbsp;&nbsp;<span class="t-key">name</span>: <span class="t-str">checkout-6f8c9</span></div>
           <div class="tline">&nbsp;&nbsp;<span class="t-key">namespace</span>: <span class="t-str">production</span></div>
           <div class="tline"><span class="t-key">spec</span>:</div>
-          <div class="tline">&nbsp;&nbsp;<span class="t-key">fingerprint</span>: <span class="t-str">production|WorkloadCrashLoop|api-server</span></div>
-          <div class="tline">&nbsp;&nbsp;<span class="t-key">incidentType</span>: <span class="t-err">WorkloadCrashLoop</span></div>
+          <div class="tline">&nbsp;&nbsp;<span class="t-key">fingerprint</span>: <span class="t-str">otel|checkout|latency-spike</span></div>
+          <div class="tline">&nbsp;&nbsp;<span class="t-key">incidentType</span>: <span class="t-err">ServiceLatencySpike</span></div>
           <div class="tline"><span class="t-key">status</span>:</div>
           <div class="tline">&nbsp;&nbsp;<span class="t-key">phase</span>: <span class="t-ok">Active</span></div>
-          <div class="tline">&nbsp;&nbsp;<span class="t-key">severity</span>: <span class="t-warn">P2</span></div>
-          <div class="tline">&nbsp;&nbsp;<span class="t-key">firstObservedAt</span>: <span class="t-str">"2025-03-17T09:14:23Z"</span></div>
-          <div class="tline">&nbsp;&nbsp;<span class="t-key">activeAt</span>: <span class="t-str">"2025-03-17T09:19:24Z"</span></div>
-          <div class="tline">&nbsp;&nbsp;<span class="t-key">signalCount</span>: <span class="t-num">7</span></div>
-          <div class="tline">&nbsp;&nbsp;<span class="t-key">summary</span>: <span class="t-str">"Deployment api-server crash-looping"</span></div>
+          <div class="tline">&nbsp;&nbsp;<span class="t-key">severity</span>: <span class="t-warn">P2 High</span></div>
+          <div class="tline">&nbsp;&nbsp;<span class="t-key">traceIDs</span>: [<span class="t-str">"6f8c9b2a"</span>, <span class="t-str">"ac04e1d7"</span>]</div>
+          <div class="tline">&nbsp;&nbsp;<span class="t-key">firedRule</span>: <span class="t-str">checkout-latency-spike</span></div>
+          <div class="tline">&nbsp;&nbsp;<span class="t-key">signalCount</span>: <span class="t-num">12</span></div>
+          <div class="tline">&nbsp;&nbsp;<span class="t-key">incidentGraph</span>: <span class="t-str">"{ nodes: 8, edges: 11 }"</span></div>
+          <div class="tline">&nbsp;&nbsp;<span class="t-key">summary</span>: <span class="t-str">"Checkout latency correlated with payment errors"</span></div>
         </div>
 
-        <!-- Panel 2: RCAAgent -->
+        <!-- Panel 2: Helm profile -->
         <div class="demo-panel" id="panel-2">
-          <div class="tline"><span class="t-key">apiVersion</span>: <span class="t-str">rca.rca-operator.tech/v1alpha1</span></div>
-          <div class="tline"><span class="t-key">kind</span>: <span class="t-info">RCAAgent</span></div>
-          <div class="tline"><span class="t-key">metadata</span>:</div>
-          <div class="tline">&nbsp;&nbsp;<span class="t-key">name</span>: <span class="t-str">sre-agent</span></div>
-          <div class="tline">&nbsp;&nbsp;<span class="t-key">namespace</span>: <span class="t-str">rca-system</span></div>
-          <div class="tline"><span class="t-key">spec</span>:</div>
-          <div class="tline">&nbsp;&nbsp;<span class="t-key">watchNamespaces</span>: [<span class="t-str">production</span>, <span class="t-str">staging</span>]</div>
-          <div class="tline">&nbsp;&nbsp;<span class="t-key">incidentRetention</span>: <span class="t-val">30d</span></div>
-          <div class="tline">&nbsp;&nbsp;<span class="t-key">notifications</span>:</div>
-          <div class="tline">&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-key">slack</span>:</div>
-          <div class="tline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-key">webhookSecretRef</span>: <span class="t-str">slack-webhook</span></div>
-          <div class="tline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-key">channel</span>: <span class="t-str">"#incidents"</span></div>
-          <div class="tline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-key">mentionOnP1</span>: <span class="t-str">"@oncall"</span></div>
-          <div class="tline">&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-key">pagerduty</span>:</div>
-          <div class="tline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-key">secretRef</span>: <span class="t-str">pagerduty-key</span></div>
-          <div class="tline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-key">severity</span>: <span class="t-warn">P2</span></div>
+          <div class="tline"><span class="t-pr">$</span>&nbsp;<span class="t-cm">helm install rca-operator rca-operator/rca-operator \</span></div>
+          <div class="tline">&nbsp;&nbsp;<span class="t-cm">--namespace rca-system --create-namespace \</span></div>
+          <div class="tline">&nbsp;&nbsp;<span class="t-cm">--values helm/values-full.yaml</span></div>
+          <div class="tline">&nbsp;</div>
+          <div class="tline"><span class="t-key">includes</span>:</div>
+          <div class="tline">&nbsp;&nbsp;- <span class="t-str">RCA Operator control plane</span></div>
+          <div class="tline">&nbsp;&nbsp;- <span class="t-str">OpenTelemetry Operator</span></div>
+          <div class="tline">&nbsp;&nbsp;- <span class="t-str">OpenTelemetryCollector CR</span></div>
+          <div class="tline">&nbsp;&nbsp;- <span class="t-str">Instrumentation CRs</span></div>
+          <div class="tline">&nbsp;&nbsp;- <span class="t-str">Jaeger trace storage and query</span></div>
+          <div class="tline">&nbsp;&nbsp;- <span class="t-str">Dashboard topology and trace detail endpoints</span></div>
         </div>
 
       </div>
@@ -1216,33 +1212,33 @@
 <div class="section-wrap" id="how-it-works">
   <div class="section-inner">
     <div class="eyebrow">How it works</div>
-    <h2 class="section-h reveal">From failure signal to incident record<br/>in under 30 seconds</h2>
-    <p class="section-desc reveal reveal-d1">The traditional SRE loop takes minutes or hours. RCA Operator collapses it using real-time Kubernetes-native signal collection and a durable incident engine.</p>
+    <h2 class="section-h reveal">From telemetry signal to incident evidence<br/>with topology context</h2>
+    <p class="section-desc reveal reveal-d1">Phase 2 connects Kubernetes-native signals with OpenTelemetry traces and logs, then persists the correlated evidence in IncidentReport CRs.</p>
 
     <div class="flow-grid reveal reveal-d2">
       <div class="flow-cell">
         <div class="flow-num">01</div>
-        <div class="flow-icon">🔭</div>
+        <div class="flow-icon">01</div>
         <div class="flow-title">Collect</div>
-        <div class="flow-desc">Read-only informer-based collectors watch pods, nodes, workloads, and events from the Kubernetes API — no polling, no external agents.</div>
+        <div class="flow-desc">Informer-backed collectors watch Kubernetes resources while the OTLP receiver accepts spans and logs from instrumented services.</div>
       </div>
       <div class="flow-cell">
         <div class="flow-num">02</div>
-        <div class="flow-icon">🔗</div>
-        <div class="flow-title">Correlate</div>
-        <div class="flow-desc">Normalized signals are fingerprinted and deduplicated. Pods are mapped to their top-level workload owner so one incident represents the real blast radius.</div>
+        <div class="flow-icon">02</div>
+        <div class="flow-title">Translate</div>
+        <div class="flow-desc">The OTLP translator turns ResourceSpans and ResourceLogs into normalized correlator events with service, severity, trace, and attribute context.</div>
       </div>
       <div class="flow-cell">
         <div class="flow-num">03</div>
-        <div class="flow-icon">⏱️</div>
-        <div class="flow-title">Stabilize</div>
-        <div class="flow-desc">The incident engine enforces a 5-minute stabilization window before promotion to <code style="color:var(--amber);font-family:var(--mono);font-size:11px">Active</code> — preventing false positives from transient flaps.</div>
+        <div class="flow-icon">03</div>
+        <div class="flow-title">Correlate</div>
+        <div class="flow-desc">Rules evaluate event types and attributes, coalesce duplicate signals, preserve trace IDs, and attach the fired rule to the incident.</div>
       </div>
       <div class="flow-cell">
         <div class="flow-num">04</div>
-        <div class="flow-icon">📣</div>
-        <div class="flow-title">Act</div>
-        <div class="flow-desc">Creates a durable <code style="color:var(--blue);font-family:var(--mono);font-size:11px">IncidentReport</code> CR, notifies via Slack/PagerDuty, and powers the built-in dashboard — all from the same source of truth.</div>
+        <div class="flow-icon">04</div>
+        <div class="flow-title">Enrich</div>
+        <div class="flow-desc">Jaeger and Kubernetes resource lookups build service and incident topology for the dashboard, trace modal, and responder workflow.</div>
       </div>
     </div>
   </div>
@@ -1252,79 +1248,79 @@
 <div class="section-sep"></div>
 <div class="section-wrap" id="features" style="background:var(--bg2);">
   <div class="section-inner">
-    <div class="eyebrow">Phase 1 — Completed</div>
-    <h2 class="section-h reveal">Production-grade features,<br/>built from day one</h2>
+    <div class="eyebrow">Phase 2 — Released Architecture</div>
+    <h2 class="section-h reveal">Trace-aware incident correlation,<br/>still Kubernetes-native</h2>
 
     <div class="features-grid">
       <div class="feat-card reveal">
-        <div class="feat-icon-wrap blue">⚡</div>
-        <div class="feat-title">Kubernetes-Native Signal Collection</div>
-        <div class="feat-desc">Informer-based collectors watch pods, nodes, workloads, and events using only core Kubernetes APIs — no metrics-server, no Prometheus, no log agents.</div>
+        <div class="feat-icon-wrap blue">OT</div>
+        <div class="feat-title">OpenTelemetry Ingest</div>
+        <div class="feat-desc">OTLP spans and logs are translated into correlator events with error status, latency spikes, severity, attributes, and trace IDs preserved.</div>
       </div>
       <div class="feat-card reveal reveal-d1">
-        <div class="feat-icon-wrap green">⏱️</div>
-        <div class="feat-title">5-Minute Stabilization Window</div>
-        <div class="feat-desc">Incidents only become <code style="font-family:var(--mono);font-size:11px;color:var(--amber)">Active</code> after 5 continuous minutes of confirmed failure — eliminating noise from transient flaps and rolling restarts.</div>
-      </div>
-      <div class="feat-card reveal reveal-d2">
-        <div class="feat-icon-wrap amber">🔗</div>
-        <div class="feat-title">Workload-Aware Fingerprinting</div>
-        <div class="feat-desc">Pods are resolved to their top-level owner (Deployment, StatefulSet, DaemonSet, Job) so one incident covers the full blast radius — not one per pod replica.</div>
-      </div>
-      <div class="feat-card reveal">
-        <div class="feat-icon-wrap blue">📋</div>
-        <div class="feat-title">Durable IncidentReport CRDs</div>
-        <div class="feat-desc"><code style="font-family:var(--mono);font-size:11px;color:var(--blue)">RCAAgent</code> and <code style="font-family:var(--mono);font-size:11px;color:var(--blue)">IncidentReport</code> are first-class Kubernetes objects. Full audit trail, queryable via kubectl, GitOps-compatible out of the box.</div>
-      </div>
-      <div class="feat-card reveal reveal-d1">
-        <div class="feat-icon-wrap green">📣</div>
-        <div class="feat-title">Rich Notifications</div>
-        <div class="feat-desc">Slack and PagerDuty notifications driven from durable incident state. Includes incident fingerprint, severity, affected resources, and timeline — not just "something is broken."</div>
-      </div>
-      <div class="feat-card reveal reveal-d2">
-        <div class="feat-icon-wrap purple">📊</div>
-        <div class="feat-title">Built-in Incident Dashboard</div>
-        <div class="feat-desc">Embedded web dashboard served by the operator itself. Reads only <code style="font-family:var(--mono);font-size:11px;color:var(--blue)">IncidentReport</code> and <code style="font-family:var(--mono);font-size:11px;color:var(--blue)">RCAAgent</code> CRs — no raw cluster reads from the UI.</div>
-      </div>
-      <div class="feat-card reveal">
-        <div class="feat-icon-wrap amber">🔐</div>
-        <div class="feat-title">RBAC Native &amp; Secure</div>
-        <div class="feat-desc">Runs with least-privilege read-only permissions on cluster resources. Supports multi-tenant clusters with namespace-scoped RCAAgents. Security policy is documented and auditable.</div>
-      </div>
-      <div class="feat-card reveal reveal-d1">
-        <div class="feat-icon-wrap blue">♻️</div>
-        <div class="feat-title">Automatic Incident Resolution</div>
-        <div class="feat-desc">Incidents auto-resolve when the broken state clears and no confirming signal is seen for 5 minutes. Operator restarts do not duplicate or lose open incidents.</div>
-      </div>
-      <div class="feat-card reveal reveal-d2">
-        <div class="feat-icon-wrap purple">🛠️</div>
-        <div class="feat-title">Built on kubebuilder</div>
-        <div class="feat-desc">Leverages kubebuilder and controller-runtime — the same foundation as Crossplane, Cluster API, and cert-manager. Production-grade controller patterns from day one.</div>
-      </div>
-      <div class="feat-card reveal">
-        <div class="feat-icon-wrap green">🧩</div>
+        <div class="feat-icon-wrap green">CR</div>
         <div class="feat-title">Correlation Rule Engine</div>
-        <div class="feat-desc">5 built-in correlation rules plus dynamic CRD-based custom rules via <code style="font-family:var(--mono);font-size:11px;color:var(--blue)">RCACorrelationRule</code>. Priority-based evaluation, templated summaries — no operator redeploy needed.</div>
-      </div>
-      <div class="feat-card reveal reveal-d1">
-        <div class="feat-icon-wrap blue">📈</div>
-        <div class="feat-title">Prometheus Metrics</div>
-        <div class="feat-desc">11+ metrics tracking incident lifecycle, signal processing, rule evaluations, and notification delivery. Ready for Prometheus scraping out of the box.</div>
+        <div class="feat-desc"><code style="font-family:var(--mono);font-size:11px;color:var(--blue)">RCACorrelationRule</code> supports event types, attribute predicates, trace matching, priorities, and templated incident summaries.</div>
       </div>
       <div class="feat-card reveal reveal-d2">
-        <div class="feat-icon-wrap purple">🔭</div>
-        <div class="feat-title">OpenTelemetry Tracing</div>
-        <div class="feat-desc">Optional OTLP gRPC export for distributed tracing. Configurable endpoint, service name, sampling rate, and TLS — integrates with SigNoz or any OTel collector.</div>
+        <div class="feat-icon-wrap amber">TG</div>
+        <div class="feat-title">Incident Topology Graph</div>
+        <div class="feat-desc">IncidentReports can store topology graphs with Kubernetes resources and service-call edges enriched from Jaeger trace data.</div>
       </div>
       <div class="feat-card reveal">
-        <div class="feat-icon-wrap amber">🏗️</div>
+        <div class="feat-icon-wrap blue">IR</div>
+        <div class="feat-title">Durable IncidentReport CRDs</div>
+        <div class="feat-desc"><code style="font-family:var(--mono);font-size:11px;color:var(--blue)">IncidentReport</code> now includes trace IDs, fired rule metadata, severity labels, evidence counts, and serialized graph data.</div>
+      </div>
+      <div class="feat-card reveal reveal-d1">
+        <div class="feat-icon-wrap green">UI</div>
+        <div class="feat-title">Dashboard With Trace Detail</div>
+        <div class="feat-desc">The embedded dashboard adds topology tabs, service graph views, traffic statistics, inline Jaeger trace detail, and clearer severity presentation.</div>
+      </div>
+      <div class="feat-card reveal reveal-d2">
+        <div class="feat-icon-wrap purple">JG</div>
+        <div class="feat-title">Jaeger Integration</div>
+        <div class="feat-desc">The graph builder and dashboard trace APIs query Jaeger with bounded lookback and timeout handling for predictable incident enrichment.</div>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon-wrap amber">RB</div>
+        <div class="feat-title">RBAC and NetworkPolicy Templates</div>
+        <div class="feat-desc">Helm templates include dedicated OpenTelemetry Collector RBAC, ingest services, instrumentation namespace handling, and network policy resources.</div>
+      </div>
+      <div class="feat-card reveal reveal-d1">
+        <div class="feat-icon-wrap blue">DD</div>
+        <div class="feat-title">Signal Deduplication</div>
+        <div class="feat-desc">Configurable buffer sizes and deduplication windows coalesce repeated OTLP signals before they create noisy incident updates.</div>
+      </div>
+      <div class="feat-card reveal reveal-d2">
+        <div class="feat-icon-wrap purple">HP</div>
+        <div class="feat-title">Helm Install Profiles</div>
+        <div class="feat-desc">Use minimal, full, production, development, or external-observability values depending on how much of the observability stack you want bundled.</div>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon-wrap green">SG</div>
+        <div class="feat-title">Service Graph Layout</div>
+        <div class="feat-desc">Service topology uses namespace-aware graph building and improved layout logic so dependency paths are easier to scan during incident review.</div>
+      </div>
+      <div class="feat-card reveal reveal-d1">
+        <div class="feat-icon-wrap blue">PI</div>
+        <div class="feat-title">PII Redaction</div>
+        <div class="feat-desc">Log translation supports configured redaction patterns before messages enter the correlation and incident evidence pipeline.</div>
+      </div>
+      <div class="feat-card reveal reveal-d2">
+        <div class="feat-icon-wrap purple">TS</div>
+        <div class="feat-title">Phase 2 Test Coverage</div>
+        <div class="feat-desc">Translator, rule engine, dashboard handlers, graph builders, signal buffering, webhooks, and golden Phase 2 flows are covered by focused tests.</div>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon-wrap amber">HA</div>
         <div class="feat-title">Leader Election &amp; HA</div>
         <div class="feat-desc">Supports high-availability deployments with leader election. Single active incident writer ensures dedup correctness. Safe startup recovery from existing CRs.</div>
       </div>
       <div class="feat-card reveal reveal-d1">
-        <div class="feat-icon-wrap green">🗑️</div>
+        <div class="feat-icon-wrap green">RT</div>
         <div class="feat-title">Incident Retention &amp; Cleanup</div>
-        <div class="feat-desc">Configurable retention policy (default 30 days). Auto-prunes resolved <code style="font-family:var(--mono);font-size:11px;color:var(--blue)">IncidentReport</code> CRs. Supports minutes, hours, or days (e.g., 5m, 24h, 30d).</div>
+        <div class="feat-desc">Resolved incident reports and stale incident graph data can be pruned based on configured retention policy.</div>
       </div>
     </div>
   </div>
@@ -1335,57 +1331,57 @@
 <div class="section-wrap">
   <div class="section-inner">
     <div class="eyebrow">Phase 2</div>
-    <h2 class="section-h reveal">🔥 Phase 2 is starting</h2>
-    <p class="section-desc reveal reveal-d1">We're adding following features to make RCA Operator even more powerful. Follow the project on GitHub to stay updated.</p>
+    <h2 class="section-h reveal">Phase 2 architecture is released</h2>
+    <p class="section-desc reveal reveal-d1">Phase 2 expands RCA Operator with OpenTelemetry resources, trace-aware correlation, topology graphs, dashboard trace detail, and production-ready Helm profiles.</p>
 
     <div class="coming-soon-grid">
       <div class="cs-card reveal">
-        <span class="cs-badge in-progress">In Progress</span>
-        <span class="cs-icon">🔗</span>
-        <div class="cs-title">Correlation Engine</div>
-        <div class="cs-desc">Correlate logs + metrics + traces together to pinpoint exact root causes. Cross-signal incident analysis powered by normalized data pipelines.</div>
+        <span class="cs-badge in-progress">Released</span>
+        <span class="cs-icon">OT</span>
+        <div class="cs-title">OTLP Translator</div>
+        <div class="cs-desc">ResourceSpans and ResourceLogs are converted into correlator events with service, trace, severity, latency, and attribute context.</div>
       </div>
       <div class="cs-card reveal reveal-d1">
-        <span class="cs-badge in-progress">In Progress</span>
-        <span class="cs-icon">📊</span>
-        <div class="cs-title">Topology Visualization UI</div>
-        <div class="cs-desc">Interactive topology visualization showing service dependencies, failure propagation, and incident blast radius in real-time.</div>
+        <span class="cs-badge in-progress">Released</span>
+        <span class="cs-icon">TG</span>
+        <div class="cs-title">Topology Visualization</div>
+        <div class="cs-desc">Incident and service graphs show Kubernetes resources, service dependencies, and trace-backed edges inside the embedded dashboard.</div>
       </div>
       <div class="cs-card reveal reveal-d2">
-        <span class="cs-badge in-progress">In Progress</span>
-        <span class="cs-icon">📡</span>
-        <div class="cs-title">OpenTelemetry Integrations</div>
-        <div class="cs-desc">Native OTel collector integration for automatic trace correlation, span-based incident detection, and distributed tracing context preservation.</div>
+        <span class="cs-badge in-progress">Released</span>
+        <span class="cs-icon">OC</span>
+        <div class="cs-title">OpenTelemetry Resources</div>
+        <div class="cs-desc">Helm templates add OpenTelemetryCollector, Instrumentation, RBAC, services, and network policy support for opt-in telemetry.</div>
       </div>
       <div class="cs-card reveal reveal-d3">
-        <span class="cs-badge in-progress">In Progress</span>
-        <span class="cs-icon">🧠</span>
-        <div class="cs-title">Smarter RCA Insights</div>
-        <div class="cs-desc">AI-powered root cause analysis with LLM-driven investigations. Automatic anomaly detection and pattern-based incident prediction.</div>
+        <span class="cs-badge in-progress">Released</span>
+        <span class="cs-icon">JD</span>
+        <div class="cs-title">Jaeger Trace Detail</div>
+        <div class="cs-desc">Dashboard endpoints fetch bounded Jaeger trace details and render inline trace evidence alongside incident and service topology.</div>
       </div>
       <div class="cs-card reveal">
-        <span class="cs-badge">Planned</span>
-        <span class="cs-icon">📝</span>
-        <div class="cs-title">Log Collection &amp; Analysis</div>
-        <div class="cs-desc">Deep integration with Loki, ELK, and Datadog for contextualized log analysis within incidents.</div>
+        <span class="cs-badge in-progress">Released</span>
+        <span class="cs-icon">HP</span>
+        <div class="cs-title">Helm Profiles</div>
+        <div class="cs-desc">Minimal, full, dev, production, and external-observability values make the install path clearer for different cluster setups.</div>
       </div>
       <div class="cs-card reveal reveal-d1">
-        <span class="cs-badge">Planned</span>
-        <span class="cs-icon">📈</span>
-        <div class="cs-title">Grafana Dashboards</div>
-        <div class="cs-desc">Pre-built Grafana dashboard templates for visualizing incident trends, signal patterns, and operator health.</div>
+        <span class="cs-badge in-progress">Released</span>
+        <span class="cs-icon">DD</span>
+        <div class="cs-title">Signal Deduplication</div>
+        <div class="cs-desc">Configurable signal buffers and deduplication windows reduce repeated OTLP noise before it reaches incident lifecycle handling.</div>
       </div>
       <div class="cs-card reveal reveal-d2">
-        <span class="cs-badge">Planned</span>
-        <span class="cs-icon">🎯</span>
-        <div class="cs-title">SLO Tracking</div>
-        <div class="cs-desc">Define and track Service Level Objectives with automatic incident correlation when SLOs are breached.</div>
+        <span class="cs-badge in-progress">Released</span>
+        <span class="cs-icon">TS</span>
+        <div class="cs-title">Phase 2 Tests</div>
+        <div class="cs-desc">Golden tests, translator tests, graph tests, dashboard handler tests, and webhook coverage make the new architecture reviewable.</div>
       </div>
       <div class="cs-card reveal reveal-d3">
-        <span class="cs-badge">Planned</span>
-        <span class="cs-icon">🔧</span>
-        <div class="cs-title">Autonomous Remediation</div>
-        <div class="cs-desc">Automated remediation actions triggered by specific incident patterns — restart pods, scale deployments, and more.</div>
+        <span class="cs-badge in-progress">Released</span>
+        <span class="cs-icon">PR</span>
+        <div class="cs-title">Production Hardening</div>
+        <div class="cs-desc">Timeout handling, lookback limits, namespace resolution, and prerelease verification scripts support safer installs.</div>
       </div>
     </div>
   </div>
@@ -1396,15 +1392,15 @@
 <div class="section-wrap">
   <div class="section-inner">
     <div class="eyebrow">Architecture</div>
-    <h2 class="section-h reveal">Phase 1 architecture —<br/>designed for reliability</h2>
-    <p class="section-desc reveal reveal-d1">A single operator deployment using informer-backed collectors, a single-writer incident engine, and CR-backed durable state. No external databases or AI dependencies.</p>
+    <h2 class="section-h reveal">Phase 2 architecture —<br/>telemetry plus Kubernetes context</h2>
+    <p class="section-desc reveal reveal-d1">A controller-runtime operator with Kubernetes collectors, OTLP ingest, correlation rules, Jaeger trace enrichment, CR-backed incident state, and a dashboard for evidence review.</p>
 
     <div class="arch-wrap reveal reveal-d2">
       <div class="arch-topbar">
         <span style="color:var(--blue)">●</span>
-        &nbsp;rca-operator Phase 1 architecture
+        &nbsp;rca-operator Phase 2 architecture
         &nbsp;·&nbsp;
-        <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/docs/concepts/Architecture.md" target="_blank" style="color:var(--blue);text-decoration:none;">full diagram →</a>
+        <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main/docs/concepts/Architecture.md" target="_blank" style="color:var(--blue);text-decoration:none;">full diagram →</a>
       </div>
       <div class="arch-body">
         <svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:860px;display:block;margin:0 auto;">
@@ -1423,7 +1419,7 @@
 
           <!-- Operator box -->
           <rect x="30" y="44" width="840" height="310" rx="8" fill="rgba(14,18,32,0.8)" stroke="rgba(79,142,247,0.12)" stroke-width="1"/>
-          <text x="48" y="64" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(176,188,206,0.5)">RCA Operator — controller-runtime Manager · leader election</text>
+          <text x="48" y="64" font-family="JetBrains Mono,monospace" font-size="10" fill="rgba(176,188,206,0.5)">RCA Operator — controller-runtime Manager · OTel ingest · leader election</text>
 
           <!-- K8s API Server -->
           <rect x="350" y="74" width="200" height="44" rx="6" fill="#0e1628" stroke="rgba(79,142,247,0.5)" stroke-width="1.5"/>
@@ -1436,27 +1432,27 @@
 
           <!-- Signal Collectors -->
           <rect x="80" y="160" width="200" height="84" rx="6" fill="#0e1628" stroke="rgba(79,142,247,0.3)" stroke-width="1"/>
-          <text x="180" y="184" font-family="Plus Jakarta Sans,sans-serif" font-size="12" font-weight="700" fill="#c5d0e0" text-anchor="middle">Signal Collectors</text>
-          <text x="180" y="200" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(176,188,206,0.5)" text-anchor="middle">node · pod · workload · event</text>
-          <text x="180" y="214" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(176,188,206,0.5)" text-anchor="middle">ownership enricher</text>
-          <text x="180" y="228" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(176,188,206,0.4)" text-anchor="middle">read-only · informer-backed</text>
+          <text x="180" y="184" font-family="Plus Jakarta Sans,sans-serif" font-size="12" font-weight="700" fill="#c5d0e0" text-anchor="middle">Signal Ingest</text>
+          <text x="180" y="200" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(176,188,206,0.5)" text-anchor="middle">k8s events · spans · logs</text>
+          <text x="180" y="214" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(176,188,206,0.5)" text-anchor="middle">OTLP translator</text>
+          <text x="180" y="228" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(176,188,206,0.4)" text-anchor="middle">dedup · PII redaction</text>
 
           <!-- Dashboard API Server -->
           <rect x="620" y="160" width="200" height="84" rx="6" fill="#0e1628" stroke="rgba(167,139,250,0.3)" stroke-width="1"/>
           <text x="720" y="184" font-family="Plus Jakarta Sans,sans-serif" font-size="12" font-weight="700" fill="#c5d0e0" text-anchor="middle">Dashboard API Server</text>
-          <text x="720" y="200" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(167,139,250,0.6)" text-anchor="middle">reads IncidentReport CRs</text>
-          <text x="720" y="214" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(167,139,250,0.6)" text-anchor="middle">reads RCAAgent CRs</text>
-          <text x="720" y="228" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(176,188,206,0.4)" text-anchor="middle">no raw cluster reads</text>
+          <text x="720" y="200" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(167,139,250,0.6)" text-anchor="middle">incidents · topology</text>
+          <text x="720" y="214" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(167,139,250,0.6)" text-anchor="middle">trace detail modal</text>
+          <text x="720" y="228" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(176,188,206,0.4)" text-anchor="middle">service graph views</text>
 
           <!-- Arrow: Signal Collectors → Incident Engine -->
           <line x1="180" y1="244" x2="350" y2="280" stroke="rgba(79,142,247,0.5)" stroke-width="1.5" marker-end="url(#arr)"/>
 
           <!-- Incident Engine -->
           <rect x="330" y="282" width="240" height="84" rx="6" fill="#0e1628" stroke="rgba(16,217,138,0.4)" stroke-width="1.5"/>
-          <text x="450" y="306" font-family="Plus Jakarta Sans,sans-serif" font-size="12" font-weight="700" fill="#c5d0e0" text-anchor="middle">Incident Engine</text>
-          <text x="450" y="322" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(16,217,138,0.7)" text-anchor="middle">fingerprinting · 5 min stabilization</text>
-          <text x="450" y="336" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(16,217,138,0.7)" text-anchor="middle">dedup · lifecycle · resolve</text>
-          <text x="450" y="350" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(176,188,206,0.4)" text-anchor="middle">single writer for IncidentReport</text>
+          <text x="450" y="306" font-family="Plus Jakarta Sans,sans-serif" font-size="12" font-weight="700" fill="#c5d0e0" text-anchor="middle">Correlation Engine</text>
+          <text x="450" y="322" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(16,217,138,0.7)" text-anchor="middle">rules · attributes · trace IDs</text>
+          <text x="450" y="336" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(16,217,138,0.7)" text-anchor="middle">incident lifecycle · coalescing</text>
+          <text x="450" y="350" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(176,188,206,0.4)" text-anchor="middle">graph builder · Jaeger enrichment</text>
 
           <!-- Arrow: Incident Engine → IncidentReport -->
           <line x1="450" y1="366" x2="450" y2="384" stroke="rgba(16,217,138,0.4)" stroke-width="1.5" marker-end="url(#arr-g)"/>
@@ -1467,15 +1463,15 @@
         <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;justify-content:center;">
           <div style="background:rgba(16,217,138,0.06);border:1px solid rgba(16,217,138,0.2);border-radius:8px;padding:14px 20px;font-family:var(--mono);font-size:11px;color:rgba(16,217,138,0.8);min-width:200px;text-align:center;">
             <div style="font-weight:700;margin-bottom:4px;color:#e8edf5;">IncidentReport CRD</div>
-            <div style="color:var(--text2);">durable source of truth</div>
+            <div style="color:var(--text2);">trace IDs · rules · graph</div>
           </div>
           <div style="background:rgba(79,142,247,0.06);border:1px solid rgba(79,142,247,0.2);border-radius:8px;padding:14px 20px;font-family:var(--mono);font-size:11px;min-width:200px;text-align:center;">
-            <div style="font-weight:700;margin-bottom:4px;color:#e8edf5;">Notifications</div>
-            <div style="color:var(--text2);">Slack · PagerDuty · K8s Events</div>
+            <div style="font-weight:700;margin-bottom:4px;color:#e8edf5;">OpenTelemetry Stack</div>
+            <div style="color:var(--text2);">Collector · Instrumentation · Jaeger</div>
           </div>
           <div style="background:rgba(167,139,250,0.06);border:1px solid rgba(167,139,250,0.2);border-radius:8px;padding:14px 20px;font-family:var(--mono);font-size:11px;min-width:200px;text-align:center;">
             <div style="font-weight:700;margin-bottom:4px;color:#e8edf5;">Dashboard UI</div>
-            <div style="color:var(--text2);">reads CRs only</div>
+            <div style="color:var(--text2);">incidents · topology · traces</div>
           </div>
         </div>
       </div>
@@ -1487,29 +1483,29 @@
 <div class="section-wrap" id="roadmap" style="background:var(--bg2);">
   <div class="section-inner">
     <div class="eyebrow">Roadmap</div>
-    <h2 class="section-h reveal">From foundation to production-ready</h2>
-    <p class="section-desc reveal reveal-d1">A clear, phased roadmap built around Kubernetes-native incident detection. Each phase ships a production-worthy slice.</p>
+    <h2 class="section-h reveal">From foundation to trace-aware RCA</h2>
+    <p class="section-desc reveal reveal-d1">A phased roadmap that keeps Kubernetes CRDs as the source of truth while adding telemetry-driven incident context.</p>
 
     <div class="roadmap reveal reveal-d2">
       <div class="rm-row">
         <div class="rm-version">v0.0.15</div>
         <div class="rm-status"><span class="status-pill released"><span class="pip"></span>Released</span></div>
-        <div class="rm-desc"><strong>Phase 1 Foundation</strong> — Signal collectors (node, pod, workload, event), incident engine with 5-min stabilization, IncidentReport CRD, Slack &amp; PagerDuty notifications, built-in dashboard, Helm chart</div>
+        <div class="rm-desc"><strong>Phase 1 Foundation</strong> — Kubernetes collectors, incident lifecycle, IncidentReport CRD, Slack &amp; PagerDuty notifications, built-in dashboard, Helm chart</div>
       </div>
       <div class="rm-row">
         <div class="rm-version">v0.0.16</div>
-        <div class="rm-status"><span class="status-pill active"><span class="pip"></span>In Progress</span></div>
-        <div class="rm-desc"><strong>Phase 2 — Correlation &amp; Topology</strong> — Correlation engine (logs + metrics + traces), topology visualization UI, OpenTelemetry integrations, smarter RCA insights, startup recovery, leader election, incident retention, full test coverage</div>
+        <div class="rm-status"><span class="status-pill released"><span class="pip"></span>Released</span></div>
+        <div class="rm-desc"><strong>Phase 2 — OTLP Correlation &amp; Topology</strong> — OpenTelemetry Collector and Instrumentation resources, OTLP translator, service topology, incident graph persistence, Jaeger trace detail, Helm profiles, and expanded tests</div>
       </div>
       <div class="rm-row">
         <div class="rm-version">v0.2.0</div>
         <div class="rm-status"><span class="status-pill planned"><span class="pip"></span>Planned</span></div>
-        <div class="rm-desc"><strong>Observability &amp; Intelligence</strong> — Grafana dashboards, SLO tracking, log collection, auto post-mortems, AI/LLM root cause analysis</div>
+        <div class="rm-desc"><strong>Operational Hardening</strong> — broader integrations, Grafana-ready outputs, SLO workflows, richer post-incident reporting, and production validation</div>
       </div>
       <div class="rm-row">
         <div class="rm-version">v1.0</div>
         <div class="rm-status"><span class="status-pill planned"><span class="pip"></span>Planned</span></div>
-        <div class="rm-desc"><strong>Production Ready</strong> — Multi-cluster support, full web UI, autonomous remediation, OLM / OperatorHub listing, CNCF sandbox proposal</div>
+        <div class="rm-desc"><strong>Production Ready</strong> — Multi-cluster support, refined web UI, remediation hooks, OLM / OperatorHub packaging, and CNCF sandbox preparation</div>
       </div>
     </div>
   </div>
@@ -1521,7 +1517,7 @@
   <div class="section-inner">
     <div class="eyebrow">Quick Start</div>
     <h2 class="section-h reveal">Deployed in minutes,<br/>not hours</h2>
-    <p class="section-desc reveal reveal-d1">Choose kubectl or Helm. Both paths have your operator watching your cluster in under 5 minutes.</p>
+    <p class="section-desc reveal reveal-d1">Use Helm for the current chart and Phase 2 values profiles. Minimal installs run the control plane; full installs include OpenTelemetry and Jaeger components.</p>
 
     <div style="margin-top:48px;" class="reveal reveal-d2">
       <div class="install-tabs">
@@ -1541,10 +1537,13 @@
             <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">helm repo add <span class="c-arg">rca-operator</span> <span class="c-arg">https://gaurangkudale.github.io/rca-operator.github.io</span></span></div>
             <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">helm repo update</span></div>
             <div style="height:10px"></div>
-            <div class="step-line"><span class="step-num-sm">#2</span><span class="c-comment"># Install the operator</span></div>
+            <div class="step-line"><span class="step-num-sm">#2</span><span class="c-comment"># Install the minimal operator profile</span></div>
             <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">helm install <span class="c-arg">rca-operator</span> rca-operator/rca-operator \</span></div>
             <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">&nbsp;&nbsp;<span class="c-flag">--namespace</span> rca-system \</span></div>
-            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">&nbsp;&nbsp;<span class="c-flag">--create-namespace</span></span></div>
+            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">&nbsp;&nbsp;<span class="c-flag">--create-namespace</span> \</span></div>
+            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">&nbsp;&nbsp;<span class="c-flag">--values</span> helm/values-minimal.yaml</span></div>
+            <div style="height:10px"></div>
+            <div class="step-line"><span class="step-num-sm">#3</span><span class="c-comment"># Use helm/values-full.yaml for OTel Operator, Collector, Instrumentation, and Jaeger</span></div>
           </div>
         </div>
       </div>
@@ -1557,10 +1556,10 @@
             <button class="copy-all-btn" onclick="copyBlock('kubectl-cmds')">Copy all</button>
           </div>
           <div class="code-content" id="kubectl-cmds">
-            <div class="step-line"><span class="step-num-sm">#1</span><span class="c-comment"># Install CRDs and operator (all-in-one) - use specific version</span></div>
-            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">kubectl apply -f <span class="c-arg">https://github.com/gaurangkudale/RCA-Operator/releases/download/v0.0.15/install.yaml</span></span></div>
+            <div class="step-line"><span class="step-num-sm">#1</span><span class="c-comment"># Install CRDs and operator from a release manifest</span></div>
+            <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">kubectl apply -f <span class="c-arg">https://github.com/gaurangkudale/RCA-Operator/releases/download/v0.0.16/install.yaml</span></span></div>
             <div style="height:10px"></div>
-            <div class="step-line"><span class="step-num-sm">#2</span><span class="c-comment"># Apply a minimal RCAAgent to start collecting signals</span></div>
+            <div class="step-line"><span class="step-num-sm">#2</span><span class="c-comment"># Apply an RCAAgent and correlation rules</span></div>
             <div class="step-line"><span class="step-num-sm"></span><span class="c-cmd">kubectl apply -f <span class="c-arg">config/samples/rca_v1alpha1_rcaagent.yaml</span></span></div>
             <div style="height:10px"></div>
             <div class="step-line"><span class="step-num-sm">#3</span><span class="c-comment"># Verify the operator is running</span></div>
@@ -1572,9 +1571,9 @@
       </div>
 
       <div style="margin-top:16px;display:flex;gap:14px;flex-wrap:wrap;">
-        <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/docs/getting-started/installation.md" target="_blank" class="btn-outline">📄 Full Installation Guide</a>
-        <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/docs/getting-started/quickstart.md" target="_blank" class="btn-outline">⚡ 5-min Quick Start</a>
-        <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/docs/getting-started/prerequisites.md" target="_blank" class="btn-outline">✅ Prerequisites</a>
+        <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main/docs/helm-installation.md" target="_blank" class="btn-outline">Helm Installation Guide</a>
+        <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main/docs/getting-started/quickstart.md" target="_blank" class="btn-outline">Quick Start</a>
+        <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main/docs/phases/PHASE2_RELEASE_NOTES.md" target="_blank" class="btn-outline">Phase 2 Release Notes</a>
       </div>
     </div>
   </div>
@@ -1588,45 +1587,45 @@
     <h2 class="section-h reveal">Everything you need<br/>to get productive</h2>
 
     <div class="docs-grid">
-      <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/docs/getting-started/prerequisites.md" target="_blank" class="doc-card reveal">
-        <span class="doc-card-icon">✅</span>
-        <div class="doc-card-title">Prerequisites</div>
-        <div class="doc-card-desc">Cluster version and tooling requirements before you begin.</div>
+      <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main/docs/features/otlp-ingest.md" target="_blank" class="doc-card reveal">
+        <span class="doc-card-icon">OT</span>
+        <div class="doc-card-title">OTLP Ingest</div>
+        <div class="doc-card-desc">Trace and log translation into correlator events.</div>
       </a>
-      <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/docs/getting-started/installation.md" target="_blank" class="doc-card reveal reveal-d1">
-        <span class="doc-card-icon">📦</span>
-        <div class="doc-card-title">Installation</div>
-        <div class="doc-card-desc">Full kubectl and Helm installation guide with configuration options.</div>
+      <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main/docs/features/topology-graph.md" target="_blank" class="doc-card reveal reveal-d1">
+        <span class="doc-card-icon">TG</span>
+        <div class="doc-card-title">Topology Graph</div>
+        <div class="doc-card-desc">Incident graph and service graph behavior.</div>
       </a>
-      <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/docs/getting-started/quickstart.md" target="_blank" class="doc-card reveal reveal-d2">
-        <span class="doc-card-icon">⚡</span>
-        <div class="doc-card-title">Quick Start</div>
-        <div class="doc-card-desc">Deploy your first RCAAgent and see your first IncidentReport in under 5 minutes.</div>
+      <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main/docs/features/DASHBOARD.md" target="_blank" class="doc-card reveal reveal-d2">
+        <span class="doc-card-icon">UI</span>
+        <div class="doc-card-title">Dashboard</div>
+        <div class="doc-card-desc">Topology tabs, trace modal, and service views.</div>
       </a>
-      <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/docs/concepts/Architecture.md" target="_blank" class="doc-card reveal reveal-d3">
-        <span class="doc-card-icon">🏗️</span>
+      <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main/docs/concepts/Architecture.md" target="_blank" class="doc-card reveal reveal-d3">
+        <span class="doc-card-icon">AR</span>
         <div class="doc-card-title">Architecture</div>
-        <div class="doc-card-desc">Phase 1 system design, data flow, and component interaction overview.</div>
+        <div class="doc-card-desc">Current system design, data flow, and component interaction overview.</div>
       </a>
-      <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/docs/reference/rcaagent-crd.md" target="_blank" class="doc-card reveal">
-        <span class="doc-card-icon">📋</span>
-        <div class="doc-card-title">RCAAgent CRD Reference</div>
-        <div class="doc-card-desc">Full field reference for watchNamespaces, notifications, and incident retention.</div>
+      <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main/docs/reference/rcacorrelationrule-crd.md" target="_blank" class="doc-card reveal">
+        <span class="doc-card-icon">CR</span>
+        <div class="doc-card-title">Correlation Rule CRD</div>
+        <div class="doc-card-desc">Event types, predicates, attribute matching, and rule output.</div>
       </a>
-      <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/docs/phases/PHASE1_ARCHITECTURE.md" target="_blank" class="doc-card reveal reveal-d1">
-        <span class="doc-card-icon">📐</span>
-        <div class="doc-card-title">Phase 1 Architecture</div>
-        <div class="doc-card-desc">Production target: signal model, fingerprinting, incident lifecycle, and deduplication design.</div>
+      <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main/docs/helm-installation.md" target="_blank" class="doc-card reveal reveal-d1">
+        <span class="doc-card-icon">HM</span>
+        <div class="doc-card-title">Helm Installation</div>
+        <div class="doc-card-desc">Minimal, full, production, and external observability profiles.</div>
       </a>
-      <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/docs/reference/rbac.md" target="_blank" class="doc-card reveal reveal-d2">
-        <span class="doc-card-icon">🔐</span>
+      <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main/docs/reference/rbac.md" target="_blank" class="doc-card reveal reveal-d2">
+        <span class="doc-card-icon">RB</span>
         <div class="doc-card-title">RBAC Reference</div>
         <div class="doc-card-desc">Permissions explained — what the operator needs and why.</div>
       </a>
-      <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/docs/development/local-setup.md" target="_blank" class="doc-card reveal reveal-d3">
-        <span class="doc-card-icon">💻</span>
-        <div class="doc-card-title">Local Development</div>
-        <div class="doc-card-desc">Run the operator locally with Kind. Unit, integration, and e2e testing guides.</div>
+      <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main/docs/development/testing-guide.md" target="_blank" class="doc-card reveal reveal-d3">
+        <span class="doc-card-icon">TS</span>
+        <div class="doc-card-title">Testing Guide</div>
+        <div class="doc-card-desc">Manual scenarios, Topology UI checks, and OTLP ingest testing.</div>
       </a>
     </div>
   </div>
@@ -1642,25 +1641,25 @@
 
     <div class="contrib-grid">
       <div class="contrib-card reveal">
-        <div class="contrib-icon">🐛</div>
+        <div class="contrib-icon">ISS</div>
         <div class="contrib-title">Report Issues & Request Features</div>
         <div class="contrib-desc">Found a bug? Have an idea for a new analyzer, integration, or workflow improvement? Open an issue on GitHub — everything is triaged and prioritized transparently.</div>
         <a href="https://github.com/gaurangkudale/RCA-Operator/issues" target="_blank" class="btn-outline">Open an Issue →</a>
       </div>
       <div class="contrib-card reveal reveal-d1">
-        <div class="contrib-icon">🧑‍💻</div>
+        <div class="contrib-icon">PR</div>
         <div class="contrib-title">Contribute Code or Docs</div>
         <div class="contrib-desc">Read CONTRIBUTING.md and CODE_OF_CONDUCT.md, fork the repo, create a feature branch, run <code style="font-family:var(--mono);font-size:12px;color:var(--blue)">make test</code>, and open a Pull Request.</div>
-        <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/CONTRIBUTING.md" target="_blank" class="btn-outline">Contributing Guide →</a>
+        <a href="https://github.com/gaurangkudale/RCA-Operator/blob/main/CONTRIBUTING.md" target="_blank" class="btn-outline">Contributing Guide →</a>
       </div>
       <div class="contrib-card reveal">
-        <div class="contrib-icon">💬</div>
+        <div class="contrib-icon">DISC</div>
         <div class="contrib-title">Join Discussions</div>
         <div class="contrib-desc">Use GitHub Discussions to ask questions, share your setup, propose architecture ideas, or just let us know how RCA Operator is working for you.</div>
         <a href="https://github.com/gaurangkudale/RCA-Operator/discussions" target="_blank" class="btn-outline">Join Discussions →</a>
       </div>
       <div class="contrib-card reveal reveal-d1">
-        <div class="contrib-icon">⭐</div>
+        <div class="contrib-icon">GH</div>
         <div class="contrib-title">Star & Share</div>
         <div class="contrib-desc">The best way to support the project is to give it a star on GitHub and share it with your SRE, platform engineering, and DevOps communities. It genuinely helps.</div>
         <a href="https://github.com/gaurangkudale/RCA-Operator" target="_blank" class="btn-outline">Star on GitHub →</a>
@@ -1674,8 +1673,8 @@
 <div class="cta-final">
   <div class="cta-inner">
     <div class="eyebrow" style="justify-content:center;">Get started today</div>
-    <h2>Stop waking up to alerts.<br/>Start waking up to answers.</h2>
-    <p>RCA Operator is free, open source, and ready to deploy into your cluster today. Your on-call rotation will thank you.</p>
+    <h2>Bring incident evidence<br/>back into Kubernetes.</h2>
+    <p>RCA Operator is free, open source, and designed for platform teams that want trace-aware RCA without leaving the Kubernetes control plane.</p>
     <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
       <a href="#install" class="btn-primary" style="font-size:15px;padding:14px 32px;">
         Deploy Now →
@@ -1692,7 +1691,7 @@
 <footer>
   <div class="footer-left">
     <div class="footer-brand">
-      <div class="fi">⚙</div>
+      <div class="fi">R</div>
       RCA Operator
     </div>
     <div class="footer-copy">MIT Licensed</div>
@@ -1701,9 +1700,9 @@
     <li><a href="https://github.com/gaurangkudale/RCA-Operator" target="_blank">GitHub</a></li>
     <li><a href="https://github.com/gaurangkudale/RCA-Operator/discussions" target="_blank">Discussions</a></li>
     <li><a href="https://github.com/gaurangkudale/RCA-Operator/issues" target="_blank">Issues</a></li>
-    <li><a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/CONTRIBUTING.md" target="_blank">Contributing</a></li>
-    <li><a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/SECURITY.md" target="_blank">Security</a></li>
-    <li><a href="https://github.com/gaurangkudale/RCA-Operator/blob/main-gk/LICENSE" target="_blank">MIT License</a></li>
+    <li><a href="https://github.com/gaurangkudale/RCA-Operator/blob/main/CONTRIBUTING.md" target="_blank">Contributing</a></li>
+    <li><a href="https://github.com/gaurangkudale/RCA-Operator/blob/main/SECURITY.md" target="_blank">Security</a></li>
+    <li><a href="https://github.com/gaurangkudale/RCA-Operator/blob/main/LICENSE" target="_blank">MIT License</a></li>
   </ul>
 </footer>
 
