@@ -1814,18 +1814,17 @@
     const dailyEl = document.getElementById('daily-visits');
     const totalEl = document.getElementById('total-visits');
     const noteEl = document.getElementById('visitor-note');
-    const namespace = 'rca-operator-tech';
-    const totalKey = 'homepage-total-visits';
+    const totalKey = 'rca-operator-tech-homepage-total-visits-v1';
     const dateFormatter = new Intl.DateTimeFormat('en-CA', {
       timeZone: 'Asia/Kolkata',
       year: 'numeric',
       month: '2-digit',
       day: '2-digit'
     });
-    const todayKey = `homepage-daily-${dateFormatter.format(new Date())}`;
+    const todayKey = `rca-operator-tech-homepage-daily-visits-${dateFormatter.format(new Date()).replaceAll('-', '')}`;
 
     const updateCounter = async key => {
-      const response = await fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`, {
+      const response = await fetch(`https://countapi.mileshilliard.com/api/v1/hit/${key}`, {
         cache: 'no-store'
       });
 
